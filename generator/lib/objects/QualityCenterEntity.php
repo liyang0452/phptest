@@ -29,14 +29,19 @@ abstract class QualityCenterEntity
 	/**
 	 * return string
 	 */
-	abstract protected function _getEntityType();
+	abstract public function getQualityCenterEntityType();
+
+	/**
+	 * return int
+	 */
+	abstract public function getId();
 
 	/**
 	 * @return SimpleXMLElement
 	 */
 	public function toXml()
 	{
-		$xml = new SimpleXMLElement('<Entity Type="' . $this->_getEntityType() . '" />');
+		$xml = new SimpleXMLElement('<Entity Type="' . $this->getQualityCenterEntityType() . '" />');
 		$fieldsXml = $xml->addChild('Fields');
 		
 		foreach($this->fields as $fieldName => $fieldValue)

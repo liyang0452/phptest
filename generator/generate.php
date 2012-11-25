@@ -201,9 +201,9 @@ require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 class $className extends QualityCenterEntity
 {
 	/* (non-PHPdoc)
-	 * @see QualityCenterEntity::_getEntityType()
+	 * @see QualityCenterEntity::getQualityCenterEntityType()
 	 */
-	protected function _getEntityType()
+	public function getQualityCenterEntityType()
 	{
 		return '$entityType';
 	}
@@ -261,9 +261,9 @@ require_once __DIR__ . '/../../filters/entities/{$objectClassName}Filter.php';
 class $className extends QualityCenterEntityService
 {
 	/* (non-PHPdoc)
-	 * @see QualityCenterEntityService::_getEntityType()
+	 * @see QualityCenterEntityService::getQualityCenterEntityType()
 	 */
-	protected function _getEntityType()
+	public function getQualityCenterEntityType()
 	{
 		return '$entityType';
 	}

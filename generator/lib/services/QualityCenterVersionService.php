@@ -14,57 +14,62 @@ require_once __DIR__ . '/../objects/QualityCenterCheckOutParameters.php';
 class QualityCenterVersionService extends QualityCenterService
 {
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
-	 * @return QualityCenterCheckOutParameters
+	 * @param QualityCenterEntity $entityType
+	 * @return QualityCenterEntity
 	 */
-	public function checkOut($entityType, $entityId)
+	public function checkOut(QualityCenterEntity $entity)
 	{
 		$parameters = new QualityCenterCheckOutParameters();
 		
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/versions/check-out';
-		$xml = $this->connection->post($action, $parameters->toXml()->saveXML(), $this->domain, $this->project, $entityType, $entityId);
-		return new QualityCenterCheckOutParameters(new SimpleXMLElement($xml));
+		$xml = $this->connection->post($action, $parameters->toXml()->saveXML(), $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
+		$class = get_class($entity);
+		$lockedObject = new $class(new SimpleXMLElement($xml));
+		/* @var $lockedObject QualityCenterEntity */
+		return ($entity->getId() == $lockedObject->getId()); 
 	}
 	
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
-	 * @return QualityCenterCheckOutParameters
+	 * @param QualityCenterEntity $entityType
+	 * @return QualityCenterEntity
 	 */
-	public function undoCheckOut($entityType, $entityId)
+	public function undoCheckOut(QualityCenterEntity $entity)
 	{
 		$parameters = new QualityCenterCheckOutParameters();
 		
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/versions/undo-check-out';
-		$xml = $this->connection->post($action, $parameters->toXml()->saveXML(), $this->domain, $this->project, $entityType, $entityId);
-		return new QualityCenterCheckOutParameters(new SimpleXMLElement($xml));
+		$xml = $this->connection->post($action, $parameters->toXml()->saveXML(), $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
+		$class = get_class($entity);
+		$lockedObject = new $class(new SimpleXMLElement($xml));
+		/* @var $lockedObject QualityCenterEntity */
+		return ($entity->getId() == $lockedObject->getId()); 
 	}
 	
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
-	 * @return QualityCenterCheckInParameters
+	 * @param QualityCenterEntity $entityType
+	 * @return QualityCenterEntity
 	 */
-	public function checkIn($entityType, $entityId, $comment)
+	public function checkIn(QualityCenterEntity $entity, $comment)
 	{
 		$parameters = new QualityCenterCheckInParameters();
 		$parameters->setComment($comment);
 		
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/versions/check-in';
-		$xml = $this->connection->post($action, $parameters->toXml()->saveXML(), $this->domain, $this->project, $entityType, $entityId);
-		return new QualityCenterCheckInParameters(new SimpleXMLElement($xml));
+		$xml = $this->connection->post($action, $parameters->toXml()->saveXML(), $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
+		$class = get_class($entity);
+		$lockedObject = new $class(new SimpleXMLElement($xml));
+		/* @var $lockedObject QualityCenterEntity */
+		return ($entity->getId() == $lockedObject->getId()); 
 	}
 	
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
+	 * @param QualityCenterEntity $entityType
 	 * @return QualityCenterCheckOutParameters
 	 */
-	public function get($entityType, $entityId)
+	public function get(QualityCenterEntity $entity)
 	{
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/versions/check-out';
-		$xml = $this->connection->get($action, $this->domain, $this->project, $entityType, $entityId);
+		$xml = $this->connection->get($action, $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
 		return new QualityCenterCheckOutParameters(new SimpleXMLElement($xml));
 	}
 }

@@ -14,6 +14,7 @@ class QualityCenterConnection
 {
 	const METHOD_GET = 'GET';
 	const METHOD_POST = 'POST';
+	const METHOD_PUT = 'PUT';
 	const METHOD_DELETE = 'DELETE';
 	
 	/**
@@ -59,10 +60,22 @@ class QualityCenterConnection
 	private $xml = null;
 	
 	/**
+	 * False file resource
+	 * @var resource
+	 */
+	private $fileHandle = null;
+	
+	/**
 	 * HTTP request method
 	 * @var string
 	 */
 	private $method = self::METHOD_GET;
+	
+	/**
+	 * HTTP expected code
+	 * @var int
+	 */
+	private $expectedHttpCode = 200;
 	
 	/**
 	 * HTTP cookies to send
@@ -85,6 +98,7 @@ class QualityCenterConnection
 	{
 		$this->server = $server;
 		$this->port = $port;
+		$this->fileHandle = fopen(__FILE__, 'r');
 		
 		if($username && $password)
 			$this->login($username, $password);
@@ -131,26 +145,6 @@ class QualityCenterConnection
 	 * @param string $xml
 	 * @return string
 	 */
-	public function postNew($action, $xml)
-	{
-		$args = func_get_args();
-		array_shift($args);
-		array_shift($args);
-		$this->action = @call_user_func_array('sprintf', array_merge(array($action), $args));
-		$this->xml = $xml;
-		$this->headers = array(
-			'Accept: application/xml',
-			'Content-Type: application/xml',
-		);
-		$this->method = self::METHOD_POST;
-		return $this->getResult(201);
-	}
-	
-	/**
-	 * @param string $action
-	 * @param string $xml
-	 * @return string
-	 */
 	public function post($action, $xml)
 	{
 		$args = func_get_args();
@@ -163,6 +157,26 @@ class QualityCenterConnection
 			'Content-Type: application/xml',
 		);
 		$this->method = self::METHOD_POST;
+		return $this->getResult();
+	}
+	
+	/**
+	 * @param string $action
+	 * @param string $xml
+	 * @return string
+	 */
+	public function put($action, $xml)
+	{
+		$args = func_get_args();
+		array_shift($args);
+		array_shift($args);
+		$this->action = @call_user_func_array('sprintf', array_merge(array($action), $args));
+		$this->xml = $xml;
+		$this->headers = array(
+			'Accept: application/xml',
+			'Content-Type: application/xml',
+		);
+		$this->method = self::METHOD_PUT;
 		return $this->getResult();
 	}
 	
@@ -195,6 +209,18 @@ class QualityCenterConnection
 	}
 	
 	/**
+	 * @param resource $ch
+	 * @param string $fileData
+	 * @param int $fileSize
+	 */
+	protected function readXml($ch, $fileData, $size)
+	{
+		$ret = substr($this->xml, 0, $size);
+		$this->xml = substr($this->xml, $size);
+		return $ret;
+	}
+	
+	/**
 	 * 
 	 */
 	protected function init()
@@ -217,13 +243,22 @@ class QualityCenterConnection
 			echo "Sent data [" . $this->xml . "]\n";
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->xml);
 		}
+		if($this->method == self::METHOD_PUT)
+		{
+			echo "Sent data [" . $this->xml . "]\n";
+			curl_setopt($this->ch, CURLOPT_PUT, true);
+			curl_setopt($this->ch, CURLOPT_UPLOAD, true);
+			curl_setopt($this->ch, CURLOPT_INFILE, $this->fileHandle);
+			curl_setopt($this->ch, CURLOPT_INFILESIZE, strlen($this->xml));
+			curl_setopt($this->ch, CURLOPT_READFUNCTION, array($this, 'readXml'));
+		}
 		//echo "Heaaders " . print_r($this->headers, true) . "\n";
 	}
 	
 	/**
 	 * @return string
 	 */
-	protected function getResult($expectedHttpCode = 200)
+	protected function getResult()
 	{
 		$this->init();
 		
@@ -242,11 +277,12 @@ class QualityCenterConnection
 		curl_close($this->ch);
 		
 		echo "HTTP Code [$httpCode] Returned data [" . $ret . "]\n";
-		if($httpCode != $expectedHttpCode)
+		if($httpCode != $this->expectedHttpCode)
 		{
 			$resultXml = new SimpleXMLElement($ret);
 			throw new QualityCenterServerException($resultXml->Title, $resultXml->Id, $resultXml->StackTrace);
 		}
+		$this->expectedHttpCode = 200;
 		
 		return $ret;
 	}
@@ -283,5 +319,14 @@ class QualityCenterConnection
 		}
 		
 		return $ret;
+	}
+	
+	/**
+	 * Set HTTP expected code
+	 * @param int $expectedHttpCode
+	 */
+	public function setExpectedHttpCode($expectedHttpCode)
+	{
+		$this->expectedHttpCode = $expectedHttpCode;
 	}
 }

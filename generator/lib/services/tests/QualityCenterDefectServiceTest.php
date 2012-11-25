@@ -19,16 +19,6 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	 * @var QualityCenterDefectService
 	 */
 	private $defectService;
-
-	/**
-	 * @var QualityCenterLockService
-	 */
-	private $lockService;
-
-	/**
-	 * @var QualityCenterVersionService
-	 */
-	private $versionService;
 	
 	/**
 	 * Prepares the environment before running a test.
@@ -48,8 +38,6 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 		date_default_timezone_set($timeZone);
 		$connection = QualityCenterConnection::getInstance($server, $port, $username, $password);
 		$this->defectService = new QualityCenterDefectService($connection, $domain, $project);
-		$this->lockService = new QualityCenterLockService($connection, $domain, $project);
-		$this->versionService = new QualityCenterVersionService($connection, $domain, $project);
 	}
 	
 	/**
@@ -131,19 +119,13 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpdate($defectId = null)
 	{
-		$this->lockService->lock('defect', $defectId);
-		$this->versionService->checkOut('defect', $defectId);
-		
-		$defect = new QualityCenterDefect();
-		$defect->setSummary('updated test1');
-		$updatedDefect = $this->defectService->update($defectId, $defect);
+		$updateDefect = new QualityCenterDefect();
+		$updateDefect->setSummary('updated test1');
+		$updatedDefect = $this->defectService->update($defectId, $updateDefect);
 		$this->assertNotNull($updatedDefect);
 		$this->assertType('QualityCenterDefect', $updatedDefect);
 		$this->assertNotNull($updatedDefect->getDefectID());
-		$this->assertEquals($defect->getSummary(), 'updated test1');
-		
-		$this->versionService->checkIn('defect', $defectId, 'just a test');
-		$this->lockService->unlock('defect', $defectId);
+		$this->assertEquals($updateDefect->getSummary(), $updatedDefect->getSummary());
 		
 		return $updatedDefect->getDefectID();
 	}

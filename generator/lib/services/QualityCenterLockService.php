@@ -13,44 +13,47 @@ require_once __DIR__ . '/../objects/QualityCenterLockStatus.php';
 class QualityCenterLockService extends QualityCenterService
 {
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
-	 * @return QualityCenterLockStatus
+	 * @param QualityCenterEntity $entityType
+	 * @return QualityCenterEntity
 	 */
-	public function lock($entityType, $entityId)
+	public function lock(QualityCenterEntity $entity)
 	{
 		$lockStatus = new QualityCenterLockStatus();
 		$lockStatus->lock($this->connection->getUsername());
 		
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/lock';
-		$xml = $this->connection->post($action, $lockStatus->toXml()->saveXML(), $this->domain, $this->project, $entityType, $entityId);
-		return new QualityCenterLockStatus(new SimpleXMLElement($xml));
+		$xml = $this->connection->post($action, $lockStatus->toXml()->saveXML(), $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
+		$class = get_class($entity);
+		$lockedObject = new $class(new SimpleXMLElement($xml));
+		/* @var $lockedObject QualityCenterEntity */
+		return ($entity->getId() == $lockedObject->getId()); 
 	}
 	
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
-	 * @return QualityCenterLockStatus
+	 * @param QualityCenterEntity $entityType
+	 * @return QualityCenterEntity
 	 */
-	public function unlock($entityType, $entityId)
+	public function unlock(QualityCenterEntity $entity)
 	{
 		$lockStatus = new QualityCenterLockStatus();
 		$lockStatus->unlock();
 		
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/lock';
-		$xml = $this->connection->post($action, $lockStatus->toXml()->saveXML(), $this->domain, $this->project, $entityType, $entityId);
-		return new QualityCenterLockStatus(new SimpleXMLElement($xml));
+		$xml = $this->connection->post($action, $lockStatus->toXml()->saveXML(), $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
+		$class = get_class($entity);
+		$lockedObject = new $class(new SimpleXMLElement($xml));
+		/* @var $lockedObject QualityCenterEntity */
+		return ($entity->getId() == $lockedObject->getId());
 	}
 	
 	/**
-	 * @param string $entityType
-	 * @param int $entityId
+	 * @param QualityCenterEntity $entityType
 	 * @return QualityCenterLockStatus
 	 */
-	public function get($entityType, $entityId)
+	public function get(QualityCenterEntity $entity)
 	{
 		$action = 'rest/domains/%s/projects/%s/%ss/%d/lock';
-		$xml = $this->connection->get($action, $this->domain, $this->project, $entityType, $entityId);
+		$xml = $this->connection->get($action, $this->domain, $this->project, $entity->getQualityCenterEntityType(), $entity->getId());
 		return new QualityCenterLockStatus(new SimpleXMLElement($xml));
 	}
 }

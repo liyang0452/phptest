@@ -14,7 +14,7 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	/**
 	 * @return string
 	 */
-	abstract protected function _getEntityType();
+	abstract public function getQualityCenterEntityType();
 	
 	/**
 	 * @param SimpleXMLElement $xml
@@ -41,8 +41,9 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	 */
 	protected function createEntity(QualityCenterEntity $entity)
 	{
-		$action = 'rest/domains/%s/projects/%s/' . $this->_getEntityType() . 's';
-		$xml = $this->connection->postNew($action, $entity->toXml()->saveXML(), $this->domain, $this->project);
+		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's';
+		$xml = $this->connection->setExpectedHttpCode(201);
+		$xml = $this->connection->post($action, $entity->toXml()->saveXML(), $this->domain, $this->project);
 		return $this->xmlToObject(new SimpleXMLElement($xml));
 	}
 	
@@ -51,7 +52,7 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	 */
 	protected function deleteEntity($entityId)
 	{
-		$action = 'rest/domains/%s/projects/%s/' . $this->_getEntityType() . 's/%d';
+		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's/%d';
 		$this->connection->delete($action, $this->domain, $this->project, $entityId);
 	}
 	
@@ -61,7 +62,7 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	 */
 	protected function getEntity($entityId)
 	{
-		$action = 'rest/domains/%s/projects/%s/' . $this->_getEntityType() . 's/%d';
+		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's/%d';
 		$xml = $this->connection->get($action, $this->domain, $this->project, $entityId);
 		return $this->xmlToObject(new SimpleXMLElement($xml));
 	}
@@ -72,7 +73,7 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	 */
 	protected function searchEntities(QualityCenterFilter $filter)
 	{
-		$action = 'rest/domains/%s/projects/%s/' . $this->_getEntityType() . 's?query={%s}';
+		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's?query={%s}';
 		$xml = $this->connection->get($action, $this->domain, $this->project, $filter);
 		return $this->xmlToObjects(new SimpleXMLElement($xml));
 	}
@@ -84,8 +85,8 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	 */
 	protected function updateEntity($entityId, QualityCenterEntity $entity)
 	{
-		$action = 'rest/domains/%s/projects/%s/' . $this->_getEntityType() . 's/%d';
-		$xml = $this->connection->post($action, $entity->toXml()->saveXML(), $this->domain, $this->project, $entityId);
+		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's/%d';
+		$xml = $this->connection->put($action, $entity->toXml()->saveXML(), $this->domain, $this->project, $entityId);
 		return $this->xmlToObject(new SimpleXMLElement($xml));
 	}
 }
