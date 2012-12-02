@@ -1,6 +1,9 @@
 <?php
-require_once 'lib/QualityCenterConnection.php';
-
+require_once  __DIR__ . '/lib/QualityCenterConnection.php';
+if($argc < 7)
+{
+    die('Usage: ' . __FILE__ . ' <qc server> <port> <domain> <project> <user> <passwd>'."\n");
+}
 list($file, $server, $port, $domain, $project, $username, $password) = $argv;
 
 QualityCenterRestGenerator::init($server, $port, $domain, $project, $username, $password);
@@ -148,8 +151,15 @@ class QualityCenterRestGenerator
 					
 					$validation .= "
 		);
-		if(!in_array(\${$varName}, \$validValues))
+					
+		if(\${$varName} instanceof QualityCenterExpression)
+		{
+			\${$varName}->validateEnum('$attributeName', \$validValues);
+		}			
+		elseif(!in_array(\${$varName}, \$validValues))
+		{
 			throw new QualityCenterInputException(\"Input [$attributeName] value [\${$varName}] is not acceptable value, supported list [\" . print_r(\$validValues, true) . \"]\", QualityCenterInputException::INVALID_ENUM, \${$varName}, \$validValues);
+		}
 		";
 				}
 				break;
@@ -193,6 +203,7 @@ class QualityCenterRestGenerator
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -227,7 +238,7 @@ class $className extends QualityCenterEntity
 			if($attributeName && preg_match('/^[a-zA-Z][a-z-A-Z0-9]*$/', $attributeName) && !in_array(strtolower($attributeName), $attributeNames))
 			{
 				$attributeNames[] = strtolower($attributeName);
-				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
+//				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
 			}
 		}
 		
@@ -338,6 +349,7 @@ class $className extends QualityCenterEntityService
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -383,7 +395,7 @@ class $className extends QualityCenterFilter
 			if($attributeName && preg_match('/^[a-zA-Z][a-z-A-Z0-9]*$/', $attributeName) && !in_array(strtolower($attributeName), $attributeNames))
 			{
 				$attributeNames[] = strtolower($attributeName);
-				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
+//				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
 			}
 		}
 		

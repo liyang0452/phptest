@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -273,8 +274,15 @@ class QualityCenterTask extends QualityCenterEntity
 			'Running',
 			'Succeeded',
 		);
-		if(!in_array($progress, $validValues))
+					
+		if($progress instanceof QualityCenterExpression)
+		{
+			$progress->validateEnum('Progress', $validValues);
+		}			
+		elseif(!in_array($progress, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Progress] value [$progress] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $progress, $validValues);
+		}
 		
 		return $this->fields['progress'] = $progress;
 	}

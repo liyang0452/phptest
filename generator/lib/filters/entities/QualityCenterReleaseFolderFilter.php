@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**

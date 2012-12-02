@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -593,8 +594,15 @@ class QualityCenterBpmModelFilter extends QualityCenterFilter
 			'As-Is',
 			'To-Be',
 		);
-		if(!in_array($prototype, $validValues))
+					
+		if($prototype instanceof QualityCenterExpression)
+		{
+			$prototype->validateEnum('Prototype', $validValues);
+		}			
+		elseif(!in_array($prototype, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Prototype] value [$prototype] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $prototype, $validValues);
+		}
 		
 		return $this->fields['prototype'] = $prototype;
 	}
@@ -928,8 +936,15 @@ class QualityCenterBpmModelFilter extends QualityCenterFilter
 			'Checked_In',
 			'Checked_Out',
 		);
-		if(!in_array($vcStatus, $validValues))
+					
+		if($vcStatus instanceof QualityCenterExpression)
+		{
+			$vcStatus->validateEnum('VcStatus', $validValues);
+		}			
+		elseif(!in_array($vcStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [VcStatus] value [$vcStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $vcStatus, $validValues);
+		}
 		
 		return $this->fields['vc-status'] = $vcStatus;
 	}

@@ -5,8 +5,6 @@
  */
 require_once __DIR__ . '/../entities/QualityCenterDefectService.php';
 require_once __DIR__ . '/../entities/QualityCenterReleaseCycleService.php';
-require_once __DIR__ . '/../QualityCenterLockService.php';
-require_once __DIR__ . '/../QualityCenterVersionService.php';
 
 /**
  * @package External
@@ -147,7 +145,7 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	public function testSearch()
 	{
 		$filter = new QualityCenterDefectFilter();
-		$filter->setAssignedTo('tantan');
+		$filter->setOwner('tantan');
 		
 		$defects = $this->defectService->search($filter);
 		$this->assertNotNull($defects);

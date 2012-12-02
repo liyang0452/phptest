@@ -56,4 +56,18 @@ abstract class QualityCenterEntity
 		
 		return $xml;
 	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+		$array = array();
+		foreach($this->fields as $field => $value)
+		{
+			$field = lcfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', $field))));
+			$array[$field] = $value;
+		}
+		return $array;
+	}
 }

@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External

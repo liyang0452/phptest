@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -178,8 +179,15 @@ class QualityCenterComponentParam extends QualityCenterEntity
 			'N',
 			'Y',
 		);
-		if(!in_array($isOut, $validValues))
+					
+		if($isOut instanceof QualityCenterExpression)
+		{
+			$isOut->validateEnum('IsOut', $validValues);
+		}			
+		elseif(!in_array($isOut, $validValues))
+		{
 			throw new QualityCenterInputException("Input [IsOut] value [$isOut] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $isOut, $validValues);
+		}
 		
 		return $this->fields['is-out'] = $isOut;
 	}
@@ -346,8 +354,15 @@ class QualityCenterComponentParam extends QualityCenterEntity
 			'String',
 			'Table',
 		);
-		if(!in_array($valueType, $validValues))
+					
+		if($valueType instanceof QualityCenterExpression)
+		{
+			$valueType->validateEnum('ValueType', $validValues);
+		}			
+		elseif(!in_array($valueType, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ValueType] value [$valueType] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $valueType, $validValues);
+		}
 		
 		return $this->fields['value-type'] = $valueType;
 	}

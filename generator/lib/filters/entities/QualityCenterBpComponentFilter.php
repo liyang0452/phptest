@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -259,8 +260,15 @@ class QualityCenterBpComponentFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($conditionValid, $validValues))
+					
+		if($conditionValid instanceof QualityCenterExpression)
+		{
+			$conditionValid->validateEnum('ConditionValid', $validValues);
+		}			
+		elseif(!in_array($conditionValid, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ConditionValid] value [$conditionValid] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $conditionValid, $validValues);
+		}
 		
 		return $this->fields['condition-valid'] = $conditionValid;
 	}
@@ -379,8 +387,15 @@ class QualityCenterBpComponentFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($hasPicture, $validValues))
+					
+		if($hasPicture instanceof QualityCenterExpression)
+		{
+			$hasPicture->validateEnum('HasPicture', $validValues);
+		}			
+		elseif(!in_array($hasPicture, $validValues))
+		{
 			throw new QualityCenterInputException("Input [HasPicture] value [$hasPicture] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $hasPicture, $validValues);
+		}
 		
 		return $this->fields['has-picture'] = $hasPicture;
 	}
@@ -480,8 +495,15 @@ class QualityCenterBpComponentFilter extends QualityCenterFilter
 			'Continue',
 			'Exit',
 		);
-		if(!in_array($failCond, $validValues))
+					
+		if($failCond instanceof QualityCenterExpression)
+		{
+			$failCond->validateEnum('FailCond', $validValues);
+		}			
+		elseif(!in_array($failCond, $validValues))
+		{
 			throw new QualityCenterInputException("Input [FailCond] value [$failCond] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $failCond, $validValues);
+		}
 		
 		return $this->fields['fail-cond'] = $failCond;
 	}

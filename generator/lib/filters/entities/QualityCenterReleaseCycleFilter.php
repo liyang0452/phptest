@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -189,8 +190,15 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 			'Patch',
 			'Release',
 		);
-		if(!in_array($user04, $validValues))
+					
+		if($user04 instanceof QualityCenterExpression)
+		{
+			$user04->validateEnum('User04', $validValues);
+		}			
+		elseif(!in_array($user04, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User04] value [$user04] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user04, $validValues);
+		}
 		
 		return $this->fields['user-04'] = $user04;
 	}
@@ -434,8 +442,15 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 			'Professional Services',
 			'Server',
 		);
-		if(!in_array($user05, $validValues))
+					
+		if($user05 instanceof QualityCenterExpression)
+		{
+			$user05->validateEnum('User05', $validValues);
+		}			
+		elseif(!in_array($user05, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User05] value [$user05] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user05, $validValues);
+		}
 		
 		return $this->fields['user-05'] = $user05;
 	}
@@ -465,8 +480,15 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 			'Gemini',
 			'Post Eagle',
 		);
-		if(!in_array($user01, $validValues))
+					
+		if($user01 instanceof QualityCenterExpression)
+		{
+			$user01->validateEnum('User01', $validValues);
+		}			
+		elseif(!in_array($user01, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User01] value [$user01] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user01, $validValues);
+		}
 		
 		return $this->fields['user-01'] = $user01;
 	}

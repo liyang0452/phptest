@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -181,8 +182,15 @@ class QualityCenterResult extends QualityCenterEntity
 			'Default',
 			'Sprinter',
 		);
-		if(!in_array($type, $validValues))
+					
+		if($type instanceof QualityCenterExpression)
+		{
+			$type->validateEnum('Type', $validValues);
+		}			
+		elseif(!in_array($type, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Type] value [$type] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $type, $validValues);
+		}
 		
 		return $this->fields['type'] = $type;
 	}

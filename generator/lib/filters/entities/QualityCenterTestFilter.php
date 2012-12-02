@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -225,8 +226,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'Safari 6.0',
 			'_N/A_',
 		);
-		if(!in_array($user02, $validValues))
+					
+		if($user02 instanceof QualityCenterExpression)
+		{
+			$user02->validateEnum('User02', $validValues);
+		}			
+		elseif(!in_array($user02, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User02] value [$user02] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user02, $validValues);
+		}
 		
 		return $this->fields['user-02'] = $user02;
 	}
@@ -349,8 +357,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'On Prem',
 			'SAAS',
 		);
-		if(!in_array($user06, $validValues))
+					
+		if($user06 instanceof QualityCenterExpression)
+		{
+			$user06->validateEnum('User06', $validValues);
+		}			
+		elseif(!in_array($user06, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User06] value [$user06] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user06, $validValues);
+		}
 		
 		return $this->fields['user-06'] = $user06;
 	}
@@ -448,8 +463,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'Not Completed',
 			'Passed',
 		);
-		if(!in_array($execStatus, $validValues))
+					
+		if($execStatus instanceof QualityCenterExpression)
+		{
+			$execStatus->validateEnum('ExecStatus', $validValues);
+		}			
+		elseif(!in_array($execStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ExecStatus] value [$execStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $execStatus, $validValues);
+		}
 		
 		return $this->fields['exec-status'] = $execStatus;
 	}
@@ -477,8 +499,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($user01, $validValues))
+					
+		if($user01 instanceof QualityCenterExpression)
+		{
+			$user01->validateEnum('User01', $validValues);
+		}			
+		elseif(!in_array($user01, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User01] value [$user01] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user01, $validValues);
+		}
 		
 		return $this->fields['user-01'] = $user01;
 	}
@@ -604,8 +633,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'2-Medium',
 			'3-Low',
 		);
-		if(!in_array($user03, $validValues))
+					
+		if($user03 instanceof QualityCenterExpression)
+		{
+			$user03->validateEnum('User03', $validValues);
+		}			
+		elseif(!in_array($user03, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User03] value [$user03] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user03, $validValues);
+		}
 		
 		return $this->fields['user-03'] = $user03;
 	}
@@ -660,8 +696,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'Ready',
 			'Repair',
 		);
-		if(!in_array($status, $validValues))
+					
+		if($status instanceof QualityCenterExpression)
+		{
+			$status->validateEnum('Status', $validValues);
+		}			
+		elseif(!in_array($status, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Status] value [$status] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $status, $validValues);
+		}
 		
 		return $this->fields['status'] = $status;
 	}
@@ -759,8 +802,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'Professional Services',
 			'Server',
 		);
-		if(!in_array($user05, $validValues))
+					
+		if($user05 instanceof QualityCenterExpression)
+		{
+			$user05->validateEnum('User05', $validValues);
+		}			
+		elseif(!in_array($user05, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User05] value [$user05] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user05, $validValues);
+		}
 		
 		return $this->fields['user-05'] = $user05;
 	}
@@ -891,8 +941,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'Regression',
 			'Sanity',
 		);
-		if(!in_array($user07, $validValues))
+					
+		if($user07 instanceof QualityCenterExpression)
+		{
+			$user07->validateEnum('User07', $validValues);
+		}			
+		elseif(!in_array($user07, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User07] value [$user07] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user07, $validValues);
+		}
 		
 		return $this->fields['user-07'] = $user07;
 	}
@@ -920,8 +977,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'DUAL_TEST',
 			'FUNCTIONAL_TEST',
 		);
-		if(!in_array($serviceTestMode, $validValues))
+					
+		if($serviceTestMode instanceof QualityCenterExpression)
+		{
+			$serviceTestMode->validateEnum('ServiceTestMode', $validValues);
+		}			
+		elseif(!in_array($serviceTestMode, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ServiceTestMode] value [$serviceTestMode] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $serviceTestMode, $validValues);
+		}
 		
 		return $this->fields['service-test-mode'] = $serviceTestMode;
 	}
@@ -1161,8 +1225,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'Checked_In',
 			'Checked_Out',
 		);
-		if(!in_array($vcStatus, $validValues))
+					
+		if($vcStatus instanceof QualityCenterExpression)
+		{
+			$vcStatus->validateEnum('VcStatus', $validValues);
+		}			
+		elseif(!in_array($vcStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [VcStatus] value [$vcStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $vcStatus, $validValues);
+		}
 		
 		return $this->fields['vc-status'] = $vcStatus;
 	}
@@ -1215,8 +1286,15 @@ class QualityCenterTestFilter extends QualityCenterFilter
 			'All',
 			'Runtime',
 		);
-		if(!in_array($workingMode, $validValues))
+					
+		if($workingMode instanceof QualityCenterExpression)
+		{
+			$workingMode->validateEnum('WorkingMode', $validValues);
+		}			
+		elseif(!in_array($workingMode, $validValues))
+		{
 			throw new QualityCenterInputException("Input [WorkingMode] value [$workingMode] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $workingMode, $validValues);
+		}
 		
 		return $this->fields['working-mode'] = $workingMode;
 	}

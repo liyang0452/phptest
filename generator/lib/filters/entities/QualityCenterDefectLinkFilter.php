@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -171,8 +172,15 @@ class QualityCenterDefectLinkFilter extends QualityCenterFilter
 			'Duplicate',
 			'Related',
 		);
-		if(!in_array($linkType, $validValues))
+					
+		if($linkType instanceof QualityCenterExpression)
+		{
+			$linkType->validateEnum('LinkType', $validValues);
+		}			
+		elseif(!in_array($linkType, $validValues))
+		{
 			throw new QualityCenterInputException("Input [LinkType] value [$linkType] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $linkType, $validValues);
+		}
 		
 		return $this->fields['link-type'] = $linkType;
 	}

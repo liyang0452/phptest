@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -43,8 +44,15 @@ class QualityCenterComponent extends QualityCenterEntity
 			'N',
 			'Y',
 		);
-		if(!in_array($isIteratable, $validValues))
+					
+		if($isIteratable instanceof QualityCenterExpression)
+		{
+			$isIteratable->validateEnum('IsIteratable', $validValues);
+		}			
+		elseif(!in_array($isIteratable, $validValues))
+		{
 			throw new QualityCenterInputException("Input [IsIteratable] value [$isIteratable] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $isIteratable, $validValues);
+		}
 		
 		return $this->fields['is-iteratable'] = $isIteratable;
 	}
@@ -145,8 +153,15 @@ class QualityCenterComponent extends QualityCenterEntity
 			'QT-KW',
 			'QT-SCRIPTED',
 		);
-		if(!in_array($scriptType, $validValues))
+					
+		if($scriptType instanceof QualityCenterExpression)
+		{
+			$scriptType->validateEnum('ScriptType', $validValues);
+		}			
+		elseif(!in_array($scriptType, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ScriptType] value [$scriptType] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $scriptType, $validValues);
+		}
 		
 		return $this->fields['script-type'] = $scriptType;
 	}
@@ -524,8 +539,15 @@ class QualityCenterComponent extends QualityCenterEntity
 			'N',
 			'Y',
 		);
-		if(!in_array($hasPicture, $validValues))
+					
+		if($hasPicture instanceof QualityCenterExpression)
+		{
+			$hasPicture->validateEnum('HasPicture', $validValues);
+		}			
+		elseif(!in_array($hasPicture, $validValues))
+		{
 			throw new QualityCenterInputException("Input [HasPicture] value [$hasPicture] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $hasPicture, $validValues);
+		}
 		
 		return $this->fields['has-picture'] = $hasPicture;
 	}
@@ -793,8 +815,15 @@ class QualityCenterComponent extends QualityCenterEntity
 			'Ready',
 			'Under Development',
 		);
-		if(!in_array($status, $validValues))
+					
+		if($status instanceof QualityCenterExpression)
+		{
+			$status->validateEnum('Status', $validValues);
+		}			
+		elseif(!in_array($status, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Status] value [$status] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $status, $validValues);
+		}
 		
 		return $this->fields['status'] = $status;
 	}
@@ -1128,8 +1157,15 @@ class QualityCenterComponent extends QualityCenterEntity
 			'Checked_In',
 			'Checked_Out',
 		);
-		if(!in_array($vcStatus, $validValues))
+					
+		if($vcStatus instanceof QualityCenterExpression)
+		{
+			$vcStatus->validateEnum('VcStatus', $validValues);
+		}			
+		elseif(!in_array($vcStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [VcStatus] value [$vcStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $vcStatus, $validValues);
+		}
 		
 		return $this->fields['vc-status'] = $vcStatus;
 	}

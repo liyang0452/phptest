@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -136,8 +137,15 @@ class QualityCenterTestSet extends QualityCenterEntity
 	{
 		$validValues = array(
 		);
-		if(!in_array($osConfig, $validValues))
+					
+		if($osConfig instanceof QualityCenterExpression)
+		{
+			$osConfig->validateEnum('OsConfig', $validValues);
+		}			
+		elseif(!in_array($osConfig, $validValues))
+		{
 			throw new QualityCenterInputException("Input [OsConfig] value [$osConfig] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $osConfig, $validValues);
+		}
 		
 		return $this->fields['os-config'] = $osConfig;
 	}
@@ -325,8 +333,15 @@ class QualityCenterTestSet extends QualityCenterEntity
 			'Upload',
 			'Users management',
 		);
-		if(!in_array($user01, $validValues))
+					
+		if($user01 instanceof QualityCenterExpression)
+		{
+			$user01->validateEnum('User01', $validValues);
+		}			
+		elseif(!in_array($user01, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User01] value [$user01] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user01, $validValues);
+		}
 		
 		return $this->fields['user-01'] = $user01;
 	}
@@ -377,8 +392,15 @@ class QualityCenterTestSet extends QualityCenterEntity
 			'Done',
 			'Open',
 		);
-		if(!in_array($status, $validValues))
+					
+		if($status instanceof QualityCenterExpression)
+		{
+			$status->validateEnum('Status', $validValues);
+		}			
+		elseif(!in_array($status, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Status] value [$status] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $status, $validValues);
+		}
 		
 		return $this->fields['status'] = $status;
 	}

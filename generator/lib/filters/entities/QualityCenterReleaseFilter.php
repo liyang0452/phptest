@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -250,8 +251,15 @@ class QualityCenterReleaseFilter extends QualityCenterFilter
 			'Requirement Review',
 			'Test Authoring',
 		);
-		if(!in_array($user01, $validValues))
+					
+		if($user01 instanceof QualityCenterExpression)
+		{
+			$user01->validateEnum('User01', $validValues);
+		}			
+		elseif(!in_array($user01, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User01] value [$user01] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user01, $validValues);
+		}
 		
 		return $this->fields['user-01'] = $user01;
 	}
@@ -329,8 +337,15 @@ class QualityCenterReleaseFilter extends QualityCenterFilter
 			'Gemini',
 			'Post Eagle',
 		);
-		if(!in_array($user02, $validValues))
+					
+		if($user02 instanceof QualityCenterExpression)
+		{
+			$user02->validateEnum('User02', $validValues);
+		}			
+		elseif(!in_array($user02, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User02] value [$user02] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user02, $validValues);
+		}
 		
 		return $this->fields['user-02'] = $user02;
 	}

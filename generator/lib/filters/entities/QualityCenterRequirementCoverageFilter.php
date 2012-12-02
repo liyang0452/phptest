@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -51,8 +52,15 @@ class QualityCenterRequirementCoverageFilter extends QualityCenterFilter
 			'All Configurations',
 			'Selected Configurations',
 		);
-		if(!in_array($coverageMode, $validValues))
+					
+		if($coverageMode instanceof QualityCenterExpression)
+		{
+			$coverageMode->validateEnum('CoverageMode', $validValues);
+		}			
+		elseif(!in_array($coverageMode, $validValues))
+		{
 			throw new QualityCenterInputException("Input [CoverageMode] value [$coverageMode] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $coverageMode, $validValues);
+		}
 		
 		return $this->fields['coverage-mode'] = $coverageMode;
 	}

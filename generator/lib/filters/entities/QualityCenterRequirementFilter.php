@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -263,8 +264,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Not Covered',
 			'Passed',
 		);
-		if(!in_array($status, $validValues))
+					
+		if($status instanceof QualityCenterExpression)
+		{
+			$status->validateEnum('Status', $validValues);
+		}			
+		elseif(!in_array($status, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Status] value [$status] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $status, $validValues);
+		}
 		
 		return $this->fields['status'] = $status;
 	}
@@ -408,8 +416,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Hardware',
 			'Software',
 		);
-		if(!in_array($reqType, $validValues))
+					
+		if($reqType instanceof QualityCenterExpression)
+		{
+			$reqType->validateEnum('ReqType', $validValues);
+		}			
+		elseif(!in_array($reqType, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ReqType] value [$reqType] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $reqType, $validValues);
+		}
 		
 		return $this->fields['req-type'] = $reqType;
 	}
@@ -509,8 +524,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Closed',
 			'New',
 		);
-		if(!in_array($requestStatus, $validValues))
+					
+		if($requestStatus instanceof QualityCenterExpression)
+		{
+			$requestStatus->validateEnum('RequestStatus', $validValues);
+		}			
+		elseif(!in_array($requestStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RequestStatus] value [$requestStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $requestStatus, $validValues);
+		}
 		
 		return $this->fields['request-status'] = $requestStatus;
 	}
@@ -614,8 +636,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2-Medium',
 			'3-Low',
 		);
-		if(!in_array($reqPriority, $validValues))
+					
+		if($reqPriority instanceof QualityCenterExpression)
+		{
+			$reqPriority->validateEnum('ReqPriority', $validValues);
+		}			
+		elseif(!in_array($reqPriority, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ReqPriority] value [$reqPriority] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $reqPriority, $validValues);
+		}
 		
 		return $this->fields['req-priority'] = $reqPriority;
 	}
@@ -644,8 +673,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Core',
 			'ProfessionalServices',
 		);
-		if(!in_array($reqProduct, $validValues))
+					
+		if($reqProduct instanceof QualityCenterExpression)
+		{
+			$reqProduct->validateEnum('ReqProduct', $validValues);
+		}			
+		elseif(!in_array($reqProduct, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ReqProduct] value [$reqProduct] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $reqProduct, $validValues);
+		}
 		
 		return $this->fields['req-product'] = $reqProduct;
 	}
@@ -765,8 +801,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($rbtIgnoreInAnalysis, $validValues))
+					
+		if($rbtIgnoreInAnalysis instanceof QualityCenterExpression)
+		{
+			$rbtIgnoreInAnalysis->validateEnum('RbtIgnoreInAnalysis', $validValues);
+		}			
+		elseif(!in_array($rbtIgnoreInAnalysis, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtIgnoreInAnalysis] value [$rbtIgnoreInAnalysis] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtIgnoreInAnalysis, $validValues);
+		}
 		
 		return $this->fields['rbt-ignore-in-analysis'] = $rbtIgnoreInAnalysis;
 	}
@@ -795,8 +838,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2',
 			'3',
 		);
-		if(!in_array($rbtFuncCmplx, $validValues))
+					
+		if($rbtFuncCmplx instanceof QualityCenterExpression)
+		{
+			$rbtFuncCmplx->validateEnum('RbtFuncCmplx', $validValues);
+		}			
+		elseif(!in_array($rbtFuncCmplx, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtFuncCmplx] value [$rbtFuncCmplx] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtFuncCmplx, $validValues);
+		}
 		
 		return $this->fields['rbt-func-cmplx'] = $rbtFuncCmplx;
 	}
@@ -847,8 +897,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'B',
 			'C',
 		);
-		if(!in_array($rbtRisk, $validValues))
+					
+		if($rbtRisk instanceof QualityCenterExpression)
+		{
+			$rbtRisk->validateEnum('RbtRisk', $validValues);
+		}			
+		elseif(!in_array($rbtRisk, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtRisk] value [$rbtRisk] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtRisk, $validValues);
+		}
 		
 		return $this->fields['rbt-risk'] = $rbtRisk;
 	}
@@ -877,8 +934,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'B',
 			'C',
 		);
-		if(!in_array($rbtBsnsImpact, $validValues))
+					
+		if($rbtBsnsImpact instanceof QualityCenterExpression)
+		{
+			$rbtBsnsImpact->validateEnum('RbtBsnsImpact', $validValues);
+		}			
+		elseif(!in_array($rbtBsnsImpact, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtBsnsImpact] value [$rbtBsnsImpact] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtBsnsImpact, $validValues);
+		}
 		
 		return $this->fields['rbt-bsns-impact'] = $rbtBsnsImpact;
 	}
@@ -907,8 +971,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2',
 			'3',
 		);
-		if(!in_array($rbtCustomFuncCmplx, $validValues))
+					
+		if($rbtCustomFuncCmplx instanceof QualityCenterExpression)
+		{
+			$rbtCustomFuncCmplx->validateEnum('RbtCustomFuncCmplx', $validValues);
+		}			
+		elseif(!in_array($rbtCustomFuncCmplx, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtCustomFuncCmplx] value [$rbtCustomFuncCmplx] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtCustomFuncCmplx, $validValues);
+		}
 		
 		return $this->fields['rbt-custom-func-cmplx'] = $rbtCustomFuncCmplx;
 	}
@@ -937,8 +1008,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'B',
 			'C',
 		);
-		if(!in_array($rbtCustomRisk, $validValues))
+					
+		if($rbtCustomRisk instanceof QualityCenterExpression)
+		{
+			$rbtCustomRisk->validateEnum('RbtCustomRisk', $validValues);
+		}			
+		elseif(!in_array($rbtCustomRisk, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtCustomRisk] value [$rbtCustomRisk] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtCustomRisk, $validValues);
+		}
 		
 		return $this->fields['rbt-custom-risk'] = $rbtCustomRisk;
 	}
@@ -967,8 +1045,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'B',
 			'C',
 		);
-		if(!in_array($rbtCustomBsnsImpact, $validValues))
+					
+		if($rbtCustomBsnsImpact instanceof QualityCenterExpression)
+		{
+			$rbtCustomBsnsImpact->validateEnum('RbtCustomBsnsImpact', $validValues);
+		}			
+		elseif(!in_array($rbtCustomBsnsImpact, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtCustomBsnsImpact] value [$rbtCustomBsnsImpact] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtCustomBsnsImpact, $validValues);
+		}
 		
 		return $this->fields['rbt-custom-bsns-impact'] = $rbtCustomBsnsImpact;
 	}
@@ -997,8 +1082,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2',
 			'3',
 		);
-		if(!in_array($rbtCustomFailProb, $validValues))
+					
+		if($rbtCustomFailProb instanceof QualityCenterExpression)
+		{
+			$rbtCustomFailProb->validateEnum('RbtCustomFailProb', $validValues);
+		}			
+		elseif(!in_array($rbtCustomFailProb, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtCustomFailProb] value [$rbtCustomFailProb] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtCustomFailProb, $validValues);
+		}
 		
 		return $this->fields['rbt-custom-fail-prob'] = $rbtCustomFailProb;
 	}
@@ -1050,8 +1142,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'3-Basic',
 			'4-None',
 		);
-		if(!in_array($rbtCustomTestingLevel, $validValues))
+					
+		if($rbtCustomTestingLevel instanceof QualityCenterExpression)
+		{
+			$rbtCustomTestingLevel->validateEnum('RbtCustomTestingLevel', $validValues);
+		}			
+		elseif(!in_array($rbtCustomTestingLevel, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtCustomTestingLevel] value [$rbtCustomTestingLevel] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtCustomTestingLevel, $validValues);
+		}
 		
 		return $this->fields['rbt-custom-testing-level'] = $rbtCustomTestingLevel;
 	}
@@ -1080,8 +1179,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2',
 			'3',
 		);
-		if(!in_array($rbtEffectiveFuncCmplx, $validValues))
+					
+		if($rbtEffectiveFuncCmplx instanceof QualityCenterExpression)
+		{
+			$rbtEffectiveFuncCmplx->validateEnum('RbtEffectiveFuncCmplx', $validValues);
+		}			
+		elseif(!in_array($rbtEffectiveFuncCmplx, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtEffectiveFuncCmplx] value [$rbtEffectiveFuncCmplx] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtEffectiveFuncCmplx, $validValues);
+		}
 		
 		return $this->fields['rbt-effective-func-cmplx'] = $rbtEffectiveFuncCmplx;
 	}
@@ -1110,8 +1216,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'B',
 			'C',
 		);
-		if(!in_array($rbtEffectiveRisk, $validValues))
+					
+		if($rbtEffectiveRisk instanceof QualityCenterExpression)
+		{
+			$rbtEffectiveRisk->validateEnum('RbtEffectiveRisk', $validValues);
+		}			
+		elseif(!in_array($rbtEffectiveRisk, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtEffectiveRisk] value [$rbtEffectiveRisk] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtEffectiveRisk, $validValues);
+		}
 		
 		return $this->fields['rbt-effective-risk'] = $rbtEffectiveRisk;
 	}
@@ -1140,8 +1253,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'B',
 			'C',
 		);
-		if(!in_array($rbtEffectiveBsnsImpact, $validValues))
+					
+		if($rbtEffectiveBsnsImpact instanceof QualityCenterExpression)
+		{
+			$rbtEffectiveBsnsImpact->validateEnum('RbtEffectiveBsnsImpact', $validValues);
+		}			
+		elseif(!in_array($rbtEffectiveBsnsImpact, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtEffectiveBsnsImpact] value [$rbtEffectiveBsnsImpact] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtEffectiveBsnsImpact, $validValues);
+		}
 		
 		return $this->fields['rbt-effective-bsns-impact'] = $rbtEffectiveBsnsImpact;
 	}
@@ -1170,8 +1290,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2',
 			'3',
 		);
-		if(!in_array($rbtEffectiveFailProb, $validValues))
+					
+		if($rbtEffectiveFailProb instanceof QualityCenterExpression)
+		{
+			$rbtEffectiveFailProb->validateEnum('RbtEffectiveFailProb', $validValues);
+		}			
+		elseif(!in_array($rbtEffectiveFailProb, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtEffectiveFailProb] value [$rbtEffectiveFailProb] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtEffectiveFailProb, $validValues);
+		}
 		
 		return $this->fields['rbt-effective-fail-prob'] = $rbtEffectiveFailProb;
 	}
@@ -1222,8 +1349,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'2',
 			'3',
 		);
-		if(!in_array($rbtFailProb, $validValues))
+					
+		if($rbtFailProb instanceof QualityCenterExpression)
+		{
+			$rbtFailProb->validateEnum('RbtFailProb', $validValues);
+		}			
+		elseif(!in_array($rbtFailProb, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtFailProb] value [$rbtFailProb] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtFailProb, $validValues);
+		}
 		
 		return $this->fields['rbt-fail-prob'] = $rbtFailProb;
 	}
@@ -1275,8 +1409,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'3-Basic',
 			'4-None',
 		);
-		if(!in_array($rbtTestingLevel, $validValues))
+					
+		if($rbtTestingLevel instanceof QualityCenterExpression)
+		{
+			$rbtTestingLevel->validateEnum('RbtTestingLevel', $validValues);
+		}			
+		elseif(!in_array($rbtTestingLevel, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtTestingLevel] value [$rbtTestingLevel] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtTestingLevel, $validValues);
+		}
 		
 		return $this->fields['rbt-testing-level'] = $rbtTestingLevel;
 	}
@@ -1304,8 +1445,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($rbtUseCustomFuncCmplx, $validValues))
+					
+		if($rbtUseCustomFuncCmplx instanceof QualityCenterExpression)
+		{
+			$rbtUseCustomFuncCmplx->validateEnum('RbtUseCustomFuncCmplx', $validValues);
+		}			
+		elseif(!in_array($rbtUseCustomFuncCmplx, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtUseCustomFuncCmplx] value [$rbtUseCustomFuncCmplx] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtUseCustomFuncCmplx, $validValues);
+		}
 		
 		return $this->fields['rbt-use-custom-func-cmplx'] = $rbtUseCustomFuncCmplx;
 	}
@@ -1333,8 +1481,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($rbtUseCustomRisk, $validValues))
+					
+		if($rbtUseCustomRisk instanceof QualityCenterExpression)
+		{
+			$rbtUseCustomRisk->validateEnum('RbtUseCustomRisk', $validValues);
+		}			
+		elseif(!in_array($rbtUseCustomRisk, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtUseCustomRisk] value [$rbtUseCustomRisk] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtUseCustomRisk, $validValues);
+		}
 		
 		return $this->fields['rbt-use-custom-risk'] = $rbtUseCustomRisk;
 	}
@@ -1362,8 +1517,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($rbtUseCustomBsnsImpact, $validValues))
+					
+		if($rbtUseCustomBsnsImpact instanceof QualityCenterExpression)
+		{
+			$rbtUseCustomBsnsImpact->validateEnum('RbtUseCustomBsnsImpact', $validValues);
+		}			
+		elseif(!in_array($rbtUseCustomBsnsImpact, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtUseCustomBsnsImpact] value [$rbtUseCustomBsnsImpact] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtUseCustomBsnsImpact, $validValues);
+		}
 		
 		return $this->fields['rbt-use-custom-bsns-impact'] = $rbtUseCustomBsnsImpact;
 	}
@@ -1391,8 +1553,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($rbtUseCustomFailProb, $validValues))
+					
+		if($rbtUseCustomFailProb instanceof QualityCenterExpression)
+		{
+			$rbtUseCustomFailProb->validateEnum('RbtUseCustomFailProb', $validValues);
+		}			
+		elseif(!in_array($rbtUseCustomFailProb, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtUseCustomFailProb] value [$rbtUseCustomFailProb] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtUseCustomFailProb, $validValues);
+		}
 		
 		return $this->fields['rbt-use-custom-fail-prob'] = $rbtUseCustomFailProb;
 	}
@@ -1420,8 +1589,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($rbtUseCustomTlAndTe, $validValues))
+					
+		if($rbtUseCustomTlAndTe instanceof QualityCenterExpression)
+		{
+			$rbtUseCustomTlAndTe->validateEnum('RbtUseCustomTlAndTe', $validValues);
+		}			
+		elseif(!in_array($rbtUseCustomTlAndTe, $validValues))
+		{
 			throw new QualityCenterInputException("Input [RbtUseCustomTlAndTe] value [$rbtUseCustomTlAndTe] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $rbtUseCustomTlAndTe, $validValues);
+		}
 		
 		return $this->fields['rbt-use-custom-tl-and-te'] = $rbtUseCustomTlAndTe;
 	}
@@ -1587,8 +1763,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Not Reviewed',
 			'Reviewed',
 		);
-		if(!in_array($reqReviewed, $validValues))
+					
+		if($reqReviewed instanceof QualityCenterExpression)
+		{
+			$reqReviewed->validateEnum('ReqReviewed', $validValues);
+		}			
+		elseif(!in_array($reqReviewed, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ReqReviewed] value [$reqReviewed] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $reqReviewed, $validValues);
+		}
 		
 		return $this->fields['req-reviewed'] = $reqReviewed;
 	}
@@ -1684,8 +1867,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Gemini',
 			'Post Eagle',
 		);
-		if(!in_array($user01, $validValues))
+					
+		if($user01 instanceof QualityCenterExpression)
+		{
+			$user01->validateEnum('User01', $validValues);
+		}			
+		elseif(!in_array($user01, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User01] value [$user01] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user01, $validValues);
+		}
 		
 		return $this->fields['user-01'] = $user01;
 	}
@@ -1925,8 +2115,15 @@ class QualityCenterRequirementFilter extends QualityCenterFilter
 			'Checked_In',
 			'Checked_Out',
 		);
-		if(!in_array($vcStatus, $validValues))
+					
+		if($vcStatus instanceof QualityCenterExpression)
+		{
+			$vcStatus->validateEnum('VcStatus', $validValues);
+		}			
+		elseif(!in_array($vcStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [VcStatus] value [$vcStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $vcStatus, $validValues);
+		}
 		
 		return $this->fields['vc-status'] = $vcStatus;
 	}

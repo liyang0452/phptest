@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -207,8 +208,15 @@ class QualityCenterResource extends QualityCenterEntity
 			'Local',
 			'Reference',
 		);
-		if(!in_array($locationType, $validValues))
+					
+		if($locationType instanceof QualityCenterExpression)
+		{
+			$locationType->validateEnum('LocationType', $validValues);
+		}			
+		elseif(!in_array($locationType, $validValues))
+		{
 			throw new QualityCenterInputException("Input [LocationType] value [$locationType] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $locationType, $validValues);
+		}
 		
 		return $this->fields['location-type'] = $locationType;
 	}
@@ -567,8 +575,15 @@ class QualityCenterResource extends QualityCenterEntity
 			'Checked_In',
 			'Checked_Out',
 		);
-		if(!in_array($vcStatus, $validValues))
+					
+		if($vcStatus instanceof QualityCenterExpression)
+		{
+			$vcStatus->validateEnum('VcStatus', $validValues);
+		}			
+		elseif(!in_array($vcStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [VcStatus] value [$vcStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $vcStatus, $validValues);
+		}
 		
 		return $this->fields['vc-status'] = $vcStatus;
 	}

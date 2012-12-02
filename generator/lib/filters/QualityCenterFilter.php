@@ -15,6 +15,11 @@ abstract class QualityCenterFilter
 	 */
 	abstract protected function _getValidFields();
 	
+	public function notIn(array $values)
+	{
+		return "Not(" . implode(" Or ", $values) . ")";
+	}
+	
 	public function fromArray($values)
 	{
 		$validFields = $this->_getValidFields();
@@ -36,9 +41,7 @@ abstract class QualityCenterFilter
 				continue;
 				
 			$value = $this->fields[$field];
-			if(is_array($value))
-				$value = implode("' or '", $value);
-			if(strpos($value, ' ') > 0)
+			if(is_string($value) && strpos($value, ' ') > 0)
 				$value = "'$value'";
 				
 			$ret[] = "{$field}[{$value}]";

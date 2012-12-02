@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -236,8 +237,15 @@ class QualityCenterTestConfig extends QualityCenterEntity
 			'Not Completed',
 			'Passed',
 		);
-		if(!in_array($execStatus, $validValues))
+					
+		if($execStatus instanceof QualityCenterExpression)
+		{
+			$execStatus->validateEnum('ExecStatus', $validValues);
+		}			
+		elseif(!in_array($execStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ExecStatus] value [$execStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $execStatus, $validValues);
+		}
 		
 		return $this->fields['exec-status'] = $execStatus;
 	}

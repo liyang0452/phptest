@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../QualityCenterEntity.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
+require_once __DIR__ . '/../../filters/expressions/QualityCenterExpression.php';
 
 /**
  * @package External
@@ -157,8 +158,15 @@ class QualityCenterScopeItem extends QualityCenterEntity
 			'2-Medium',
 			'3-High',
 		);
-		if(!in_array($priority, $validValues))
+					
+		if($priority instanceof QualityCenterExpression)
+		{
+			$priority->validateEnum('Priority', $validValues);
+		}			
+		elseif(!in_array($priority, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Priority] value [$priority] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $priority, $validValues);
+		}
 		
 		return $this->fields['priority'] = $priority;
 	}

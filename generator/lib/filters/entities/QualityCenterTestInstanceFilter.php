@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -164,8 +165,15 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 	{
 		$validValues = array(
 		);
-		if(!in_array($osConfig, $validValues))
+					
+		if($osConfig instanceof QualityCenterExpression)
+		{
+			$osConfig->validateEnum('OsConfig', $validValues);
+		}			
+		elseif(!in_array($osConfig, $validValues))
+		{
 			throw new QualityCenterInputException("Input [OsConfig] value [$osConfig] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $osConfig, $validValues);
+		}
 		
 		return $this->fields['os-config'] = $osConfig;
 	}
@@ -407,8 +415,15 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 			'Upload',
 			'Users management',
 		);
-		if(!in_array($user01, $validValues))
+					
+		if($user01 instanceof QualityCenterExpression)
+		{
+			$user01->validateEnum('User01', $validValues);
+		}			
+		elseif(!in_array($user01, $validValues))
+		{
 			throw new QualityCenterInputException("Input [User01] value [$user01] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $user01, $validValues);
+		}
 		
 		return $this->fields['user-01'] = $user01;
 	}
@@ -484,8 +499,15 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 			'Not Completed',
 			'Passed',
 		);
-		if(!in_array($status, $validValues))
+					
+		if($status instanceof QualityCenterExpression)
+		{
+			$status->validateEnum('Status', $validValues);
+		}			
+		elseif(!in_array($status, $validValues))
+		{
 			throw new QualityCenterInputException("Input [Status] value [$status] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $status, $validValues);
+		}
 		
 		return $this->fields['status'] = $status;
 	}

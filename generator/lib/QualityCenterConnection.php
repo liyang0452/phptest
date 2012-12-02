@@ -228,7 +228,7 @@ class QualityCenterConnection
 		$this->action = str_replace(' ', '%20', $this->action);
 		$url = "http://{$this->server}:{$this->port}/qcbin/{$this->action}";
 		$this->ch = curl_init($url);
-		echo "URL [$url]\n";
+		//echo "URL [$url]\n";
 		curl_setopt($this->ch, CURLOPT_VERBOSE, true);
 		
 		foreach ($this->cookies as $cookie)
@@ -240,12 +240,12 @@ class QualityCenterConnection
 	
 		if($this->method == self::METHOD_POST)
 		{
-			echo "Sent data [" . $this->xml . "]\n";
+			//echo "Sent data [" . $this->xml . "]\n";
 			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->xml);
 		}
 		if($this->method == self::METHOD_PUT)
 		{
-			echo "Sent data [" . $this->xml . "]\n";
+			//echo "Sent data [" . $this->xml . "]\n";
 			curl_setopt($this->ch, CURLOPT_PUT, true);
 			curl_setopt($this->ch, CURLOPT_UPLOAD, true);
 			curl_setopt($this->ch, CURLOPT_INFILE, $this->fileHandle);
@@ -276,7 +276,7 @@ class QualityCenterConnection
 		$httpCode = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 		curl_close($this->ch);
 		
-		echo "HTTP Code [$httpCode] Returned data [" . $ret . "]\n";
+		//echo "HTTP Code [$httpCode] Returned data [" . $ret . "]\n";
 		if($httpCode != $this->expectedHttpCode)
 		{
 			$resultXml = new SimpleXMLElement($ret);

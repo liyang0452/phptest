@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -127,8 +128,15 @@ class QualityCenterTestCriterionFilter extends QualityCenterFilter
 			'Not Completed',
 			'Passed',
 		);
-		if(!in_array($executionStatus, $validValues))
+					
+		if($executionStatus instanceof QualityCenterExpression)
+		{
+			$executionStatus->validateEnum('ExecutionStatus', $validValues);
+		}			
+		elseif(!in_array($executionStatus, $validValues))
+		{
 			throw new QualityCenterInputException("Input [ExecutionStatus] value [$executionStatus] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $executionStatus, $validValues);
+		}
 		
 		return $this->fields['execution-status'] = $executionStatus;
 	}

@@ -4,6 +4,7 @@
  * @subpackage qc.filters
  */
 require_once __DIR__ . '/../QualityCenterFilter.php';
+require_once __DIR__ . '/../expressions/QualityCenterExpression.php';
 require_once __DIR__ . '/../../exceptions/QualityCenterInputException.php';
 
 /**
@@ -222,8 +223,15 @@ class QualityCenterAssetsRelationFilter extends QualityCenterFilter
 			'N',
 			'Y',
 		);
-		if(!in_array($isBroken, $validValues))
+					
+		if($isBroken instanceof QualityCenterExpression)
+		{
+			$isBroken->validateEnum('IsBroken', $validValues);
+		}			
+		elseif(!in_array($isBroken, $validValues))
+		{
 			throw new QualityCenterInputException("Input [IsBroken] value [$isBroken] is not acceptable value, supported list [" . print_r($validValues, true) . "]", QualityCenterInputException::INVALID_ENUM, $isBroken, $validValues);
+		}
 		
 		return $this->fields['is-broken'] = $isBroken;
 	}
