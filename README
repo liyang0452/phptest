@@ -2,9 +2,13 @@ php-quality-center - a PHP implementation of HP ALM REST Client
 ===============================================================
 Author: Jonathan [Tan-Tan] Kanarek <johnathan.kanarek@gmail.com>
 Contributer: Jess Portnoy <kernel01@gmail.com>
+Code is licensed under: Mozilla Public License 1.1 [http://www.mozilla.org/MPL/]
 
-Created: Fri Dec  7 19:05:30 IST 2012
-Last updated: Fri Dec  7 19:10:05 IST 2012
+README Created: Fri Dec  7 19:05:30 IST 2012
+Last updated: Fri Dec  7 20:30:38 IST 2012
+
+Latest source and version of this document can be obtained from:
+http://code.google.com/p/php-quality-center/source/checkout
 
 Pre-requisites:
 ===============
