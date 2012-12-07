@@ -5,6 +5,8 @@
  */
 require_once __DIR__ . '/../entities/QualityCenterDefectService.php';
 require_once __DIR__ . '/../entities/QualityCenterReleaseCycleService.php';
+require_once 'PHPUnit/Autoload.php';
+
 
 /**
  * @package External
@@ -21,17 +23,17 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Prepares the environment before running a test.
 	 */
-	protected function setUp()
+	public function setUp()
 	{
 		parent::setUp();
 		
-		$server = $_ENV['QC_SERVER'];
-		$port = $_ENV['QC_PORT'];
-		$username = $_ENV['QC_USERNAME'];
-		$password = $_ENV['QC_PASSWORD'];
-		$domain = $_ENV['QC_DOMAIN'];
-		$project = $_ENV['QC_PROJECT'];
-		$timeZone = isset($_ENV['QC_TZ']) ? $_ENV['QC_TZ'] : 'America/New_York';
+		$server = getenv('QC_SERVER');
+		$port = getenv('QC_PORT');
+		$username = getenv('QC_USERNAME');
+		$password = getenv('QC_PASSWORD');
+		$domain = getenv('QC_DOMAIN');
+		$project = getenv('QC_PROJECT');
+		$timeZone = isset(getenv('QC_TZ']) ? getenv('QC_TZ') : 'America/New_York';
 		
 		date_default_timezone_set($timeZone);
 		$connection = QualityCenterConnection::getInstance($server, $port, $username, $password);
