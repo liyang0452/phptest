@@ -19,7 +19,7 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	 * @var QualityCenterDefectService
 	 */
 	private $defectService;
-	
+	private $server,$port,$username,$password,$domain,$project,$timeZone;	
 	/**
 	 * Prepares the environment before running a test.
 	 */
@@ -27,18 +27,17 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 		
-		$server = getenv('QC_SERVER');
-		$port = getenv('QC_PORT');
-		$username = getenv('QC_USERNAME');
-		$password = getenv('QC_PASSWORD');
-		$domain = getenv('QC_DOMAIN');
-		$project = getenv('QC_PROJECT');
-		$timeZone = isset($_ENV['QC_TZ']) ? getenv('QC_TZ') : 'America/New_York';
-		$timeZone =  'America/New_York';
+		$this->server = getenv('QC_SERVER');
+		$this->port = getenv('QC_PORT');
+		$this->username = getenv('QC_USERNAME');
+		$this->password = getenv('QC_PASSWORD');
+		$this->domain = getenv('QC_DOMAIN');
+		$this->project = getenv('QC_PROJECT');
+		$this->timeZone = isset($_ENV['QC_TZ']) ? getenv('QC_TZ') : 'America/New_York';
 		
 		date_default_timezone_set($timeZone);
-		$connection = QualityCenterConnection::getInstance($server, $port, $username, $password);
-		$this->defectService = new QualityCenterDefectService($connection, $domain, $project);
+		$connection = QualityCenterConnection::getInstance($this->server, $this->port, $this->username, $this->password);
+		$this->defectService = new QualityCenterDefectService($connection, $this->domain, $this->project);
 	}
 	
 	/**
@@ -62,42 +61,41 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreate()
 	{
-		$domain = $_ENV['QC_DOMAIN'];
-		$project = $_ENV['QC_PROJECT'];
 		
 		$connection = QualityCenterConnection::getInstance();
 		$releaseCycleFilter = new QualityCenterReleaseCycleFilter();
-		$releaseCycleService = new QualityCenterReleaseCycleService($connection, $domain, $project);
+		$releaseCycleService = new QualityCenterReleaseCycleService($connection, $this->domain, $this->project);
 		$releaseCycles = $releaseCycleService->search($releaseCycleFilter);
 		$releaseCycle = array_pop($releaseCycles);
 		/* @var $releaseCycle QualityCenterReleaseCycle */
 		
 		$defect = new QualityCenterDefect();
-		$defect->setSummary('test1 sum');
-		$defect->setDetectedBy('tantan');
-		$defect->setAssignedTo('tantan');
+		$defect->setName('test1 sum');
+		$defect->setDetectedBy('jess');
+		$defect->setOwner('jess');
 		$defect->setCreationTime(time());
 		$defect->setSeverity('4-Medium');
 		$defect->setStatus('New');
-		$defect->setTestType('Progression');
-		$defect->setEnvironment('Development');
-		$defect->setReproducibility('Unknown');
-		$defect->setReason('New Issue');
-		$defect->setDefectType('Functional');
-		$defect->setTargetVersion('Gemini');
-		$defect->setDeploymentType('SAAS');
-		$defect->setType('Ticket');
-		$defect->setSFID('sf');
-		$defect->setPartnerID(0);
+		//$defect->setTestReference('Progression');
+		$defect->setUser02('Development');
+		$defect->setUser03('Unknown');
+		$defect->setUser07('New Issue');
+		$defect->setUser08('Functional');
+		$defect->setUser09('Gemini');
+		$defect->setUser10('SAAS');
+		$defect->setUser01('Automation');
+		$defect->setUser11('Bug');
+		$defect->setUser12('sf');
+		$defect->setUser13(0);
 		$defect->setDetectedInRcyc($releaseCycle->getId());
-		$defect->setClassOfService('2-Gold');
+		$defect->setUser25('2-Gold');
 		
 		$createdDefect = $this->defectService->create($defect);
 		$this->assertNotNull($createdDefect);
-		$this->assertType('QualityCenterDefect', $createdDefect);
+		//$this->assertType('QualityCenterDefect', $createdDefect);
 		$this->assertNotNull($createdDefect->getDefectID());
 		$this->assertEquals($defect->getSubject(), $createdDefect->getSubject());
-		$this->assertEquals($defect->getSummary(), $createdDefect->getSummary());
+		$this->assertEquals($defect->getName(), $createdDefect->getName());
 		return $createdDefect->getDefectID();
 	}
 	
