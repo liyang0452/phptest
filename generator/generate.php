@@ -77,6 +77,9 @@ class QualityCenterRestGenerator
 			$objectName = self::translateToObjectName($entityType);
 			
 			$fields = self::$connection->get($action, self::$domain, self::$project, $entityType);
+			if (!is_dir('xml/entities')){
+			    mkdir('xml/entities',0755,true);
+			}
 			file_put_contents("xml/entities/$entityType.fields.xml", $fields);
 			$fieldsXml = new SimpleXMLElement($fields);
 			
