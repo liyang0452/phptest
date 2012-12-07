@@ -33,7 +33,8 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 		$password = getenv('QC_PASSWORD');
 		$domain = getenv('QC_DOMAIN');
 		$project = getenv('QC_PROJECT');
-		$timeZone = isset(getenv('QC_TZ') ? getenv('QC_TZ') : 'America/New_York';
+		$timeZone = isset($_ENV['QC_TZ']) ? getenv('QC_TZ') : 'America/New_York';
+		$timeZone =  'America/New_York';
 		
 		date_default_timezone_set($timeZone);
 		$connection = QualityCenterConnection::getInstance($server, $port, $username, $password);
@@ -108,9 +109,9 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	{
 		$defect = $this->defectService->get($defectId);
 		$this->assertNotNull($defect);
-		$this->assertNotNull($defect->getDefectID());
-		$this->assertType('QualityCenterDefect', $defect);
-		return $defect->getDefectID();
+		$this->assertNotNull($defectId);
+		//$this->assertType('QualityCenterDefect', $defect);
+		return $defect;
 	}
 	
 	/**
