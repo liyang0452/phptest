@@ -1,0 +1,21 @@
+php-quality-center - a PHP implementation of HP ALM REST Client
+===============================================================
+Author: Jonathan [Tan-Tan] Kanarek <johnathan.kanarek@gmail.com>
+Contributer: Jess Portnoy <kernel01@gmail.com>
+
+Created: Fri Dec  7 19:05:30 IST 2012
+Last updated: Fri Dec  7 19:10:05 IST 2012
+
+Pre-requisites:
+===============
+- PHP 5.3
+- PHP Curl extension
+- ZendFramework
+- PHPUnit PEAR module
+
+Getting started:
+================
+Run php-quality-center/generator/generator.php with the following arguments:
+<qc server> <port> <domain> <project> <user> <passwd>
+This will generate all entities according to your specific QC server configuration.
+
