@@ -89,6 +89,7 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 		$defect->setUser13(0);
 		$defect->setDetectedInRcyc($releaseCycle->getId());
 		$defect->setUser25('2-Gold');
+		$defect->setDescription('This app is cool and it works');
 		
 		$createdDefect = $this->defectService->create($defect);
 		$this->assertNotNull($createdDefect);
