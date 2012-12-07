@@ -33,7 +33,7 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 		$password = getenv('QC_PASSWORD');
 		$domain = getenv('QC_DOMAIN');
 		$project = getenv('QC_PROJECT');
-		$timeZone = isset(getenv('QC_TZ']) ? getenv('QC_TZ') : 'America/New_York';
+		$timeZone = isset(getenv('QC_TZ') ? getenv('QC_TZ') : 'America/New_York';
 		
 		date_default_timezone_set($timeZone);
 		$connection = QualityCenterConnection::getInstance($server, $port, $username, $password);
