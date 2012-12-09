@@ -57,11 +57,12 @@ class QualityCenterDefectService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterDefectFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterDefect>
 	 */
-	public function search(QualityCenterDefectFilter $filter)
+	public function search(QualityCenterDefectFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**
