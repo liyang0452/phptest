@@ -3,7 +3,13 @@
  * @package External
  * @subpackage qc.objects
  */
-abstract class QualityCenterEntity
+require_once __DIR__ . '/QualityCenterObject.php';
+
+/**
+ * @package External
+ * @subpackage qc.objects
+ */
+abstract class QualityCenterEntity extends QualityCenterObject
 {
 	/**
 	 * @var array
