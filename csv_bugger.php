@@ -1,5 +1,18 @@
 #!/usr/bin/php
 <?php
+
+/* this script accepts a file with the fields delimeted by '||' and submits all bugs included.
+Comments are supported and can be accomplished by placing "#" in the beginning of the line 
+
+Example file, file.csv
+$ cat file.csv
+#############################################################################################################################################################################
+Jess is testing something||jess||Linux012||yair||4-Medium||New||Customer site||Always||Code fix||Functional||Bug||Falcon||On Prem||Installation||null||0||2-Gold
+# this is a comment
+Jess is testing something else||jess||Linux012||jess||5-Minor||New||Customer site||Always||Configuration||Functional||Bug||Falcon||On Prem||Installation||null||0||1-Silver
+#############################################################################################################################################################################
+*/
+
 define ('PROJ_DIR',dirname(__FILE__));
 define ('PRODUCT_VER','Falcon');
 define ('TARGET_VER','Gemini');
