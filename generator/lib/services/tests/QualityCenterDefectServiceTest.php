@@ -33,9 +33,13 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 		$this->password = getenv('QC_PASSWORD');
 		$this->domain = getenv('QC_DOMAIN');
 		$this->project = getenv('QC_PROJECT');
-		$this->timeZone = isset($_ENV['QC_TZ']) ? getenv('QC_TZ') : 'America/New_York';
+		if (getenv('TZ')){
+		    $this->timeZone = getenv('TZ');
+		}else{
+		    $this->timeZone = 'Asia/Jerusalem';
+		}
 		
-		date_default_timezone_set($timeZone);
+		date_default_timezone_set($this->timeZone);
 		$connection = QualityCenterConnection::getInstance($this->server, $this->port, $this->username, $this->password);
 		$this->defectService = new QualityCenterDefectService($connection, $this->domain, $this->project);
 	}
@@ -59,7 +63,7 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests QualityCenterDefectService->create()
 	 */
-	public function testCreate()
+	public function testCreate($bugName="tester - disregard",$detectedBy="jess",$owner="jess",$severity="4-Medium",$status="New")
 	{
 		
 		$connection = QualityCenterConnection::getInstance();
@@ -70,25 +74,25 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 		/* @var $releaseCycle QualityCenterReleaseCycle */
 		
 		$defect = new QualityCenterDefect();
-		$defect->setName('test1 sum');
-		$defect->setDetectedBy('jess');
-		$defect->setOwner('jess');
+		$defect->setName($bugName);
+		$defect->setDetectedBy($detectedBy);
+		$defect->setOwner($owner);
 		$defect->setCreationTime(time());
-		$defect->setSeverity('4-Medium');
-		$defect->setStatus('New');
+		$defect->setSeverity($severity);
+		$defect->setStatus($status);
 		//$defect->setTestReference('Progression');
-		$defect->setUser02('Development');
-		$defect->setUser03('Unknown');
-		$defect->setUser07('New Issue');
-		$defect->setUser08('Functional');
-		$defect->setUser09('Gemini');
-		$defect->setUser10('SAAS');
-		$defect->setUser01('Automation');
-		$defect->setUser11('Bug');
-		$defect->setUser12('sf');
-		$defect->setUser13(0);
+		$defect->setEnvironment('Development');
+		$defect->setReproducibility('Unknown');
+		$defect->setReason('New Issue');
+		$defect->setDefectType('Functional');
+		$defect->setTargetVersion('Gemini');
+		$defect->setDeploymentType('SAAS');
+		$defect->setTestType('Automation');
+		$defect->setType('Bug');
+		$defect->setSFID('sf');
+		$defect->setPartnerID(0);
 		$defect->setDetectedInRcyc($releaseCycle->getId());
-		$defect->setUser25('2-Gold');
+		$defect->setClassOfService('2-Gold');
 		$defect->setDescription('This app is cool and it works');
 		
 		$createdDefect = $this->defectService->create($defect);
