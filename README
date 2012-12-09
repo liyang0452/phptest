@@ -12,20 +12,42 @@ http://code.google.com/p/php-quality-center/source/checkout
 
 Pre-requisites:
 ===============
+For working with this API library:
 - PHP 5.3
 - PHP Curl extension
+- PHP SimpleXML extension
 - ZendFramework
 - PHPUnit PEAR module
 
 - PHP 5.3 can be obtained in all popular Linux distros' repositories. Also from http://php.net
-- Curl is often included with the PHP distibution, if not, you may need to install an addtional package.
+- Curl and SimpleXML are often included with the PHP distibution, if not, you may need to install an addtional package.
 - ZendFramework can be obtained in all popular Linux distros' repositories. Also from http://zendframework.com
 - To install PHPUnit one must install PEAR and then follow instructions here:
   http://www.phpunit.de/manual/3.6/en/installation.html 
+
+For the web UI:
+===============
+- Apache or other web server that can serve PHP files
+- PHP Apache module or FCGI
 
 Getting started:
 ================
 Run php-quality-center/generator/generator.php with the following arguments:
 <qc server> <port> <domain> <project> <user> <passwd>
 This will generate all entities according to your specific QC server configuration.
+Set the following ENV vars:
 
+QC_SERVER=qc.dev
+QC_PORT=7070
+QC_DOMAIN=DEFAULT
+QC_PROJECT=Core
+QC_USERNAME=user
+QC_PASSWORD=passwd
+
+Unit testing:
+=============
+Tests are available under php-quality-center/generator/lib/services/tests.
+
+[Perhaps] Useful scripts:
+=========================
+csv_bugger.php - accepts a CSV like file with bug reports and submits them to QC.
