@@ -248,7 +248,7 @@ class $className extends QualityCenterEntity
 			if($attributeName && preg_match('/^[a-zA-Z][a-z-A-Z0-9]*$/', $attributeName) && !in_array(strtolower($attributeName), $attributeNames))
 			{
 				$attributeNames[] = strtolower($attributeName);
-//				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
+				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
 			}
 		}
 		
@@ -405,7 +405,7 @@ class $className extends QualityCenterFilter
 			if($attributeName && preg_match('/^[a-zA-Z][a-z-A-Z0-9]*$/', $attributeName) && !in_array(strtolower($attributeName), $attributeNames))
 			{
 				$attributeNames[] = strtolower($attributeName);
-//				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
+				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
 			}
 		}
 		
