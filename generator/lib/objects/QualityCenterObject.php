@@ -6,11 +6,6 @@
 abstract class QualityCenterObject
 {
 	/**
-	 * @var array
-	 */
-	protected $fields = array();
-	
-	/**
 	 * @param SimpleXMLElement $xml
 	 */
 	public function __construct(SimpleXMLElement $xml = null)
@@ -18,13 +13,18 @@ abstract class QualityCenterObject
 		if(!$xml)
 			return;
 			
-		foreach($xml->Fields->children() as $fieldXml)
+		foreach($xml->children() as $fieldName => $fieldValue)
 		{
-			/* @var $fieldXml SimpleXMLElement */
-			$fieldAttributes = $fieldXml->attributes();
-			$setter = "set{$fieldAttributes->Name}";
+			$setter = "set{$fieldName}";
 			if(is_callable(array($this, $setter)))
-				$this->$setter("$fieldXml->Value");
+				$this->$setter("$fieldValue");
+		}
+		
+		foreach($xml->attributes() as $fieldName => $fieldValue)
+		{
+			$setter = "set{$fieldName}";
+			if(is_callable(array($this, $setter)))
+				$this->$setter("$fieldValue");
 		}
 	}
 
@@ -32,4 +32,9 @@ abstract class QualityCenterObject
 	 * @return SimpleXMLElement
 	 */
 	abstract public function toXml();
+
+	/**
+	 * @return array
+	 */
+	abstract public function toArray();
 }

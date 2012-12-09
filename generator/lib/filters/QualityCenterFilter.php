@@ -15,11 +15,6 @@ abstract class QualityCenterFilter
 	 */
 	abstract protected function _getValidFields();
 	
-	public function notIn(array $values)
-	{
-		return "Not(" . implode(" Or ", $values) . ")";
-	}
-	
 	public function fromArray($values)
 	{
 		$validFields = $this->_getValidFields();

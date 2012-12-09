@@ -4,6 +4,7 @@
  * @subpackage qc.services
  */
 require_once __DIR__ . '/QualityCenterService.php';
+require_once __DIR__ . '/../filters/QualityCenterPager.php';
 
 /**
  * @package External
@@ -71,10 +72,10 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	 * @param QualityCenterFilter $filter
 	 * @return array<QualityCenterEntity>
 	 */
-	protected function searchEntities(QualityCenterFilter $filter)
+	protected function searchEntities(QualityCenterFilter $filter, QualityCenterPager $pager = null)
 	{
-		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's?query={%s}';
-		$xml = $this->connection->get($action, $this->domain, $this->project, $filter);
+		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's?query={%s}&%s';
+		$xml = $this->connection->get($action, $this->domain, $this->project, $filter, $pager);
 		return $this->xmlToObjects(new SimpleXMLElement($xml));
 	}
 	
