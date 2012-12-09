@@ -4,7 +4,6 @@
  * @subpackage qc.services
  */
 require_once __DIR__ . "/ajax/exceptions/QualityCenterSessionException.php";
-
 ?>
 <!DOCTYPE html>
 <html>
