@@ -4,6 +4,8 @@
  * @subpackage qc.services
  */
 require_once __DIR__ . '/exceptions/QualityCenterConnectionException.php';
+require_once __DIR__ . '/exceptions/QualityCenterHttpException.php';
+require_once __DIR__ . '/exceptions/QualityCenterLoginException.php';
 require_once __DIR__ . '/exceptions/QualityCenterServerException.php';
 
 /**
@@ -137,7 +139,13 @@ class QualityCenterConnection
 		$this->action = 'authentication-point/authenticate';
 		$this->headers = array("Authorization: Basic " . base64_encode("$username:$password"));
 		$this->method = self::METHOD_GET;
-		$this->getHeaders();
+		
+		try{
+			$this->getHeaders();
+		}
+		catch(QualityCenterHttpException $e){
+			throw new QualityCenterLoginException();
+		}
 	}
 	
 	/**
@@ -297,25 +305,38 @@ class QualityCenterConnection
 		curl_setopt($this->ch, CURLOPT_HEADER, true);
 		curl_setopt($this->ch, CURLOPT_NOBODY, true);
 		$ret = curl_exec($this->ch);
-		curl_close($this->ch);
 		
-		if($ret)
+		if($ret === false)
 		{
-			$headers = explode("\n", $ret);
-			foreach($headers as $header)
+			$errorCode = curl_errno($this->ch);
+			$errorDescription = curl_error($this->ch);
+			curl_close($this->ch);
+			
+			throw new QualityCenterConnectionException($errorDescription, $errorCode);
+		}
+		$httpCode = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+		curl_close($this->ch);
+	
+		//echo "HTTP Code [$httpCode] Returned data [" . $ret . "]\n";
+		if($httpCode != $this->expectedHttpCode)
+		{
+			throw new QualityCenterHttpException("Unexpected response code", $httpCode);
+		}
+		
+		$headers = explode("\n", $ret);
+		foreach($headers as $header)
+		{
+			$header = trim($header, " \r\n\t");
+			//echo "Parsing header [$header]\n";
+			if(!trim($header) || !strpos($header, ':'))
+				continue;
+				
+			list($headerName, $headerValue) = explode(':', $header, 2);
+			if(strtolower(trim($headerName)) == 'set-cookie')
 			{
-				$header = trim($header, " \r\n\t");
-				//echo "Parsing header [$header]\n";
-				if(!trim($header) || !strpos($header, ':'))
-					continue;
-					
-				list($headerName, $headerValue) = explode(':', $header, 2);
-				if(strtolower(trim($headerName)) == 'set-cookie')
-				{
-					//echo "Added cookie [$headerValue]\n";
-					$this->cookies[] = $headerValue;
-				}					
-			}
+				//echo "Added cookie [$headerValue]\n";
+				$this->cookies[] = $headerValue;
+			}					
 		}
 		
 		return $ret;
@@ -328,5 +349,21 @@ class QualityCenterConnection
 	public function setExpectedHttpCode($expectedHttpCode)
 	{
 		$this->expectedHttpCode = $expectedHttpCode;
+	}
+	
+	/**
+	 * @return array $cookies
+	 */
+	public function getCookies()
+	{
+		return $this->cookies;
+	}
+
+	/**
+	 * @param array $cookies
+	 */
+	public function setCookies($cookies)
+	{
+		$this->cookies = $cookies;
 	}
 }
