@@ -59,6 +59,7 @@ class QualityCenterDefectServiceCLI extends PHPUnit_Framework_TestCase
 	    $defect->setDetectedInRcyc($releaseCycle->getId());
 	    $defect->setClassOfService($customer_type);
 	    $createdDefect = $this->defectService->create($defect);
+	    return $createdDefect->getDefectID();
     }
     protected function tearDown()
     {
@@ -101,8 +102,12 @@ for($i=0;$i<count($bugs);$i++){
     if (preg_match('/^\s*#/',$bugs[$i])||preg_match('/^$/',$bugs[$i])){
 	continue;
     }
+    $bug_id=0;
     list($subject,$creator,$description,$owner,$severity,$status,$env,$reproducibility,$reason,$defect_type,$type,$product_ver,$deployment_type,$submittion_type,$SF_ID,$partner_id,$customer_type)=explode('||',trim($bugs[$i]));
-    $qc->new_bug($subject,$creator,$description,$owner,$severity,$status,$env,$reproducibility,$reason,$defect_type,$type,$product_ver,$deployment_type,$submittion_type,$SF_ID,$partner_id,$customer_type);
+    $bug_id=$qc->new_bug($subject,$creator,$description,$owner,$severity,$status,$env,$reproducibility,$reason,$defect_type,$type,$product_ver,$deployment_type,$submittion_type,$SF_ID,$partner_id,$customer_type);
+    if($bug_id){
+	echo "New bug, ID: $bug_id created :)\n";
+    }
 }
 
 ?>
