@@ -1,10 +1,17 @@
 <?php
 require_once  __DIR__ . '/lib/QualityCenterConnection.php';
-if($argc < 7)
-{
+if (getenv('QC_SERVER')&&getenv('QC_PORT')&&getenv('QC_DOMAIN')&&getenv('QC_PROJECT')&&getenv('QC_USERNAME')&&getenv('QC_PASSWORD')){
+    echo "Using credentials from ENV vars\n";
+    $server=getenv('QC_SERVER');
+    $port=getenv('QC_PORT');
+    $domain=getenv('QC_DOMAIN');
+    $project=getenv('QC_PROJECT');
+    $username=getenv('QC_USERNAME');
+    $password=getenv('QC_PASSWORD');
+}elseif($argc < 7){
     die('Usage: ' . __FILE__ . ' <qc server> <port> <domain> <project> <user> <passwd>'."\n");
+    list($file, $server, $port, $domain, $project, $username, $password) = $argv;
 }
-list($file, $server, $port, $domain, $project, $username, $password) = $argv;
 
 QualityCenterRestGenerator::init($server, $port, $domain, $project, $username, $password);
 
