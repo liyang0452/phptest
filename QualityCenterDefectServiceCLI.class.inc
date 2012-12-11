@@ -7,7 +7,7 @@ require_once PROJ_DIR . '/generator/lib/services/entities/QualityCenterDefectSer
 require_once PROJ_DIR . '/generator/lib/services/entities/QualityCenterReleaseCycleService.php';
 class QualityCenterDefectServiceCLI extends PHPUnit_Framework_TestCase
 {
-	private $defectService;
+    private $defectService;
 	
     public function __construct()
     {
