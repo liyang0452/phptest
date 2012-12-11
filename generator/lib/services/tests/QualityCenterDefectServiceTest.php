@@ -121,16 +121,15 @@ class QualityCenterDefectServiceTest extends PHPUnit_Framework_TestCase
 	 * Tests QualityCenterDefectService->update()
 	 * @depends testGet
 	 */
-	public function testUpdate($defectId = null)
+	public function testUpdate($defectId,$summary)
 	{
 		$updateDefect = new QualityCenterDefect();
-		$updateDefect->setSummary('updated test1');
+		$updateDefect->setSummary($summary);
 		$updatedDefect = $this->defectService->update($defectId, $updateDefect);
 		$this->assertNotNull($updatedDefect);
 		$this->assertType('QualityCenterDefect', $updatedDefect);
 		$this->assertNotNull($updatedDefect->getDefectID());
 		$this->assertEquals($updateDefect->getSummary(), $updatedDefect->getSummary());
-		
 		return $updatedDefect->getDefectID();
 	}
 	
