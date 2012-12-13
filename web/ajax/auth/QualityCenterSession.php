@@ -66,7 +66,7 @@ class QualityCenterSession
 	{
 		session_start();
 		
-		if(isset($_SESSION['QualityCenterSession']))
+		if(isset($_SESSION['QualityCenterSession']) && !isset($_POST['username']))
 		{
 			self::$session = $_SESSION['QualityCenterSession'];
 			if(self::$session instanceof QualityCenterSession)
