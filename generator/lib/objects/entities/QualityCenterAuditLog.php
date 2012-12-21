@@ -183,7 +183,7 @@ class QualityCenterAuditLog extends QualityCenterEntity
 	
 	/**
 	 * Get Time as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -199,11 +199,12 @@ class QualityCenterAuditLog extends QualityCenterEntity
 	
 	/**
 	 * Set Time as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	

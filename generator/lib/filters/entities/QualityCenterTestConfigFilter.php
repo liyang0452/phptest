@@ -111,7 +111,7 @@ class QualityCenterTestConfigFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Creation date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -127,11 +127,12 @@ class QualityCenterTestConfigFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Creation date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	

@@ -57,11 +57,12 @@ class QualityCenterAuditLogService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterAuditLogFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterAuditLog>
 	 */
-	public function search(QualityCenterAuditLogFilter $filter)
+	public function search(QualityCenterAuditLogFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

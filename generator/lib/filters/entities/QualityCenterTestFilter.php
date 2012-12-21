@@ -310,7 +310,7 @@ class QualityCenterTestFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Creation Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -326,11 +326,12 @@ class QualityCenterTestFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Creation Date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	
@@ -1039,7 +1040,7 @@ class QualityCenterTestFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Version Check In Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckinDate()
 	{
@@ -1055,11 +1056,12 @@ class QualityCenterTestFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Version Check In Date as linux timestamp
-	 * @param int $vcCheckinDate
+	 * @param mixed $vcCheckinDate
 	 */
 	public function setVcCheckinDate($vcCheckinDate)
 	{
-		$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
+		if(is_int($vcCheckinDate))
+			$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
 		return $this->fields['vc-checkin-date'] = $vcCheckinDate;
 	}
 	
@@ -1134,7 +1136,7 @@ class QualityCenterTestFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Version Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcDate()
 	{
@@ -1150,11 +1152,12 @@ class QualityCenterTestFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Version Date as linux timestamp
-	 * @param int $vcDate
+	 * @param mixed $vcDate
 	 */
 	public function setVcDate($vcDate)
 	{
-		$vcDate = date('Y-m-d', $vcDate);
+		if(is_int($vcDate))
+			$vcDate = date('Y-m-d', $vcDate);
 		return $this->fields['vc-date'] = $vcDate;
 	}
 	

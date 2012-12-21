@@ -114,7 +114,7 @@ class QualityCenterTestSetFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Close Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCloseDate()
 	{
@@ -130,11 +130,12 @@ class QualityCenterTestSetFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Close Date as linux timestamp
-	 * @param int $closeDate
+	 * @param mixed $closeDate
 	 */
 	public function setCloseDate($closeDate)
 	{
-		$closeDate = date('Y-m-d', $closeDate);
+		if(is_int($closeDate))
+			$closeDate = date('Y-m-d', $closeDate);
 		return $this->fields['close-date'] = $closeDate;
 	}
 	
@@ -265,7 +266,7 @@ class QualityCenterTestSetFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Open Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getOpenDate()
 	{
@@ -281,11 +282,12 @@ class QualityCenterTestSetFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Open Date as linux timestamp
-	 * @param int $openDate
+	 * @param mixed $openDate
 	 */
 	public function setOpenDate($openDate)
 	{
-		$openDate = date('Y-m-d', $openDate);
+		if(is_int($openDate))
+			$openDate = date('Y-m-d', $openDate);
 		return $this->fields['open-date'] = $openDate;
 	}
 	
@@ -340,6 +342,7 @@ class QualityCenterTestSetFilter extends QualityCenterFilter
 			'Cue Points',
 			'Custom Data/Meta data',
 			'Distribution',
+			'Drop folder',
 			'Email Notifications',
 			'Entitlement',
 			'Entry Drill down',

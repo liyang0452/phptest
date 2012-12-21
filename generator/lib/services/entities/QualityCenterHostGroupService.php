@@ -57,11 +57,12 @@ class QualityCenterHostGroupService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterHostGroupFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterHostGroup>
 	 */
-	public function search(QualityCenterHostGroupFilter $filter)
+	public function search(QualityCenterHostGroupFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

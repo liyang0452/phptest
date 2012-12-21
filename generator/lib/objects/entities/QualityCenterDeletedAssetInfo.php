@@ -236,7 +236,7 @@ class QualityCenterDeletedAssetInfo extends QualityCenterEntity
 	
 	/**
 	 * Get Deleted date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getLastModified()
 	{
@@ -252,11 +252,12 @@ class QualityCenterDeletedAssetInfo extends QualityCenterEntity
 	
 	/**
 	 * Set Deleted date as linux timestamp
-	 * @param int $lastModified
+	 * @param mixed $lastModified
 	 */
 	public function setLastModified($lastModified)
 	{
-		$lastModified = date('Y-m-d', $lastModified);
+		if(is_int($lastModified))
+			$lastModified = date('Y-m-d', $lastModified);
 		return $this->fields['last-modified'] = $lastModified;
 	}
 	

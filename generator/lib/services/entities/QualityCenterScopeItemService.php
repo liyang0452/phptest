@@ -57,11 +57,12 @@ class QualityCenterScopeItemService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterScopeItemFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterScopeItem>
 	 */
-	public function search(QualityCenterScopeItemFilter $filter)
+	public function search(QualityCenterScopeItemFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 <?php
 require_once  __DIR__ . '/lib/QualityCenterConnection.php';
-if (getenv('QC_SERVER')&&getenv('QC_PORT')&&getenv('QC_DOMAIN')&&getenv('QC_PROJECT')&&getenv('QC_USERNAME')&&getenv('QC_PASSWORD')){
+if (getenv('QC_SERVER') && getenv('QC_PORT') && getenv('QC_DOMAIN') && getenv('QC_PROJECT') && getenv('QC_USERNAME') && getenv('QC_PASSWORD'))
+{
     echo "Using credentials from ENV vars\n";
     $server=getenv('QC_SERVER');
     $port=getenv('QC_PORT');
@@ -8,8 +9,13 @@ if (getenv('QC_SERVER')&&getenv('QC_PORT')&&getenv('QC_DOMAIN')&&getenv('QC_PROJ
     $project=getenv('QC_PROJECT');
     $username=getenv('QC_USERNAME');
     $password=getenv('QC_PASSWORD');
-}elseif($argc < 7){
+}
+elseif($argc < 7)
+{
     die('Usage: ' . __FILE__ . ' <qc server> <port> <domain> <project> <user> <passwd>'."\n");
+}
+if($argc == 7)
+{
     list($file, $server, $port, $domain, $project, $username, $password) = $argv;
 }
 
@@ -127,7 +133,7 @@ class QualityCenterRestGenerator
 				break;
 				
 			case 'Date':
-				$phpType = 'int';
+				$phpType = 'mixed';
 				$attributeDescription .= ' as linux timestamp';
 				
 				$getterCast = "
@@ -135,7 +141,8 @@ class QualityCenterRestGenerator
 		\${$varName} = mktime(0, 0, 0, \${$varName}Date['month'], \${$varName}Date['day'], \${$varName}Date['year']);
 		";
 				$setterCast = "
-		\${$varName} = date('Y-m-d', \${$varName});";
+		if(is_int(\${$varName}))
+			\${$varName} = date('Y-m-d', \${$varName});";
 			
 				break;
 				
@@ -248,7 +255,7 @@ class $className extends QualityCenterEntity
 			if($attributeName && preg_match('/^[a-zA-Z][a-z-A-Z0-9]*$/', $attributeName) && !in_array(strtolower($attributeName), $attributeNames))
 			{
 				$attributeNames[] = strtolower($attributeName);
-				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
+//				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
 			}
 		}
 		
@@ -325,11 +332,12 @@ class $className extends QualityCenterEntityService
 	
 	/**
 	 * @param {$objectClassName}Filter \$filter
+	 * @param QualityCenterPager \$pager
 	 * @return array<$objectClassName>
 	 */
-	public function search({$objectClassName}Filter \$filter)
+	public function search({$objectClassName}Filter \$filter, QualityCenterPager \$pager = null)
 	{
-		return \$this->searchEntities(\$filter);
+		return \$this->searchEntities(\$filter, \$pager);
 	}
 	
 	/**
@@ -405,7 +413,7 @@ class $className extends QualityCenterFilter
 			if($attributeName && preg_match('/^[a-zA-Z][a-z-A-Z0-9]*$/', $attributeName) && !in_array(strtolower($attributeName), $attributeNames))
 			{
 				$attributeNames[] = strtolower($attributeName);
-				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
+//				$class .= self::generateEntityAttribute($attributeName, $fieldXml);
 			}
 		}
 		

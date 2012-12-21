@@ -132,7 +132,7 @@ class QualityCenterMilestoneFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Due Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getDueDate()
 	{
@@ -148,11 +148,12 @@ class QualityCenterMilestoneFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Due Date as linux timestamp
-	 * @param int $dueDate
+	 * @param mixed $dueDate
 	 */
 	public function setDueDate($dueDate)
 	{
-		$dueDate = date('Y-m-d', $dueDate);
+		if(is_int($dueDate))
+			$dueDate = date('Y-m-d', $dueDate);
 		return $this->fields['due-date'] = $dueDate;
 	}
 	
@@ -249,7 +250,7 @@ class QualityCenterMilestoneFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Start Tracking Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getStartDate()
 	{
@@ -265,11 +266,12 @@ class QualityCenterMilestoneFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Start Tracking Date as linux timestamp
-	 * @param int $startDate
+	 * @param mixed $startDate
 	 */
 	public function setStartDate($startDate)
 	{
-		$startDate = date('Y-m-d', $startDate);
+		if(is_int($startDate))
+			$startDate = date('Y-m-d', $startDate);
 		return $this->fields['start-date'] = $startDate;
 	}
 	

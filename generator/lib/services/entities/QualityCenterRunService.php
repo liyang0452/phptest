@@ -57,11 +57,12 @@ class QualityCenterRunService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterRunFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterRun>
 	 */
-	public function search(QualityCenterRunFilter $filter)
+	public function search(QualityCenterRunFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

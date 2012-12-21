@@ -57,11 +57,12 @@ class QualityCenterFavoriteService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterFavoriteFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterFavorite>
 	 */
-	public function search(QualityCenterFavoriteFilter $filter)
+	public function search(QualityCenterFavoriteFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

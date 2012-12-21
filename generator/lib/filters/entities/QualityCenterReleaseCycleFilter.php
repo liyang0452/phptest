@@ -274,7 +274,7 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 	
 	/**
 	 * Get End Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getEndDate()
 	{
@@ -290,11 +290,12 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 	
 	/**
 	 * Set End Date as linux timestamp
-	 * @param int $endDate
+	 * @param mixed $endDate
 	 */
 	public function setEndDate($endDate)
 	{
-		$endDate = date('Y-m-d', $endDate);
+		if(is_int($endDate))
+			$endDate = date('Y-m-d', $endDate);
 		return $this->fields['end-date'] = $endDate;
 	}
 	
@@ -369,7 +370,7 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Start Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getStartDate()
 	{
@@ -385,11 +386,12 @@ class QualityCenterReleaseCycleFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Start Date as linux timestamp
-	 * @param int $startDate
+	 * @param mixed $startDate
 	 */
 	public function setStartDate($startDate)
 	{
-		$startDate = date('Y-m-d', $startDate);
+		if(is_int($startDate))
+			$startDate = date('Y-m-d', $startDate);
 		return $this->fields['start-date'] = $startDate;
 	}
 	

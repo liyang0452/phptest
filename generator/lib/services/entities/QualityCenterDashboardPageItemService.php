@@ -57,11 +57,12 @@ class QualityCenterDashboardPageItemService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterDashboardPageItemFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterDashboardPageItem>
 	 */
-	public function search(QualityCenterDashboardPageItemFilter $filter)
+	public function search(QualityCenterDashboardPageItemFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

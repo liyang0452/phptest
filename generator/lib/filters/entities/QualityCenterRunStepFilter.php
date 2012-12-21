@@ -181,7 +181,7 @@ class QualityCenterRunStepFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Exec Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getExecutionDate()
 	{
@@ -197,11 +197,12 @@ class QualityCenterRunStepFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Exec Date as linux timestamp
-	 * @param int $executionDate
+	 * @param mixed $executionDate
 	 */
 	public function setExecutionDate($executionDate)
 	{
-		$executionDate = date('Y-m-d', $executionDate);
+		if(is_int($executionDate))
+			$executionDate = date('Y-m-d', $executionDate);
 		return $this->fields['execution-date'] = $executionDate;
 	}
 	

@@ -57,11 +57,12 @@ class QualityCenterReportUserTemplateService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterReportUserTemplateFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterReportUserTemplate>
 	 */
-	public function search(QualityCenterReportUserTemplateFilter $filter)
+	public function search(QualityCenterReportUserTemplateFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

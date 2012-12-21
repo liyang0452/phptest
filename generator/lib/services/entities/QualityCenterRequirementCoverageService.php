@@ -57,11 +57,12 @@ class QualityCenterRequirementCoverageService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterRequirementCoverageFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterRequirementCoverage>
 	 */
-	public function search(QualityCenterRequirementCoverageFilter $filter)
+	public function search(QualityCenterRequirementCoverageFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

@@ -57,11 +57,12 @@ class QualityCenterRunStepService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterRunStepFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterRunStep>
 	 */
-	public function search(QualityCenterRunStepFilter $filter)
+	public function search(QualityCenterRunStepFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

@@ -45,7 +45,7 @@ class QualityCenterReqTrace extends QualityCenterEntity
 	
 	/**
 	 * Get Creation Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationDate()
 	{
@@ -61,11 +61,12 @@ class QualityCenterReqTrace extends QualityCenterEntity
 	
 	/**
 	 * Set Creation Date as linux timestamp
-	 * @param int $creationDate
+	 * @param mixed $creationDate
 	 */
 	public function setCreationDate($creationDate)
 	{
-		$creationDate = date('Y-m-d', $creationDate);
+		if(is_int($creationDate))
+			$creationDate = date('Y-m-d', $creationDate);
 		return $this->fields['creation-date'] = $creationDate;
 	}
 	

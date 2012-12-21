@@ -57,11 +57,12 @@ class QualityCenterRuntimeParamService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterRuntimeParamFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterRuntimeParam>
 	 */
-	public function search(QualityCenterRuntimeParamFilter $filter)
+	public function search(QualityCenterRuntimeParamFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

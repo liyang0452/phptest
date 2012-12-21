@@ -284,7 +284,7 @@ class QualityCenterDefect extends QualityCenterEntity
 	
 	/**
 	 * Get Closing Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getClosingDate()
 	{
@@ -300,11 +300,12 @@ class QualityCenterDefect extends QualityCenterEntity
 	
 	/**
 	 * Set Closing Date as linux timestamp
-	 * @param int $closingDate
+	 * @param mixed $closingDate
 	 */
 	public function setClosingDate($closingDate)
 	{
-		$closingDate = date('Y-m-d', $closingDate);
+		if(is_int($closingDate))
+			$closingDate = date('Y-m-d', $closingDate);
 		return $this->fields['closing-date'] = $closingDate;
 	}
 	
@@ -666,7 +667,7 @@ class QualityCenterDefect extends QualityCenterEntity
 	
 	/**
 	 * Get Detected on Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -682,11 +683,12 @@ class QualityCenterDefect extends QualityCenterEntity
 	
 	/**
 	 * Set Detected on Date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	
@@ -868,7 +870,7 @@ class QualityCenterDefect extends QualityCenterEntity
 	
 	/**
 	 * Get Fixed Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getUser24()
 	{
@@ -884,11 +886,12 @@ class QualityCenterDefect extends QualityCenterEntity
 	
 	/**
 	 * Set Fixed Date as linux timestamp
-	 * @param int $user24
+	 * @param mixed $user24
 	 */
 	public function setUser24($user24)
 	{
-		$user24 = date('Y-m-d', $user24);
+		if(is_int($user24))
+			$user24 = date('Y-m-d', $user24);
 		return $this->fields['user-24'] = $user24;
 	}
 	
@@ -1357,6 +1360,7 @@ class QualityCenterDefect extends QualityCenterEntity
 			'Cue Points',
 			'Custom Data/Meta data',
 			'Distribution',
+			'Drop folder',
 			'Email Notifications',
 			'Entitlement',
 			'Entry Drill down',

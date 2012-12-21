@@ -57,11 +57,12 @@ class QualityCenterAttachmentService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterAttachmentFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterAttachment>
 	 */
-	public function search(QualityCenterAttachmentFilter $filter)
+	public function search(QualityCenterAttachmentFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

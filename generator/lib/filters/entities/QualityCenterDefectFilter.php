@@ -351,7 +351,7 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Closing Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getClosingDate()
 	{
@@ -367,11 +367,12 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Closing Date as linux timestamp
-	 * @param int $closingDate
+	 * @param mixed $closingDate
 	 */
 	public function setClosingDate($closingDate)
 	{
-		$closingDate = date('Y-m-d', $closingDate);
+		if(is_int($closingDate))
+			$closingDate = date('Y-m-d', $closingDate);
 		return $this->fields['closing-date'] = $closingDate;
 	}
 	
@@ -733,7 +734,7 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Detected on Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -749,11 +750,12 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Detected on Date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	
@@ -935,7 +937,7 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Fixed Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getUser24()
 	{
@@ -951,11 +953,12 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Fixed Date as linux timestamp
-	 * @param int $user24
+	 * @param mixed $user24
 	 */
 	public function setUser24($user24)
 	{
-		$user24 = date('Y-m-d', $user24);
+		if(is_int($user24))
+			$user24 = date('Y-m-d', $user24);
 		return $this->fields['user-24'] = $user24;
 	}
 	
@@ -1424,6 +1427,7 @@ class QualityCenterDefectFilter extends QualityCenterFilter
 			'Cue Points',
 			'Custom Data/Meta data',
 			'Distribution',
+			'Drop folder',
 			'Email Notifications',
 			'Entitlement',
 			'Entry Drill down',

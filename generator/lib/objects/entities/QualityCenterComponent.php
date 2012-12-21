@@ -422,7 +422,7 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Get Creation date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -438,11 +438,12 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Set Creation date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	
@@ -470,7 +471,7 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Get Deleted on as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getDeletionDate()
 	{
@@ -486,11 +487,12 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Set Deleted on as linux timestamp
-	 * @param int $deletionDate
+	 * @param mixed $deletionDate
 	 */
 	public function setDeletionDate($deletionDate)
 	{
-		$deletionDate = date('Y-m-d', $deletionDate);
+		if(is_int($deletionDate))
+			$deletionDate = date('Y-m-d', $deletionDate);
 		return $this->fields['deletion-date'] = $deletionDate;
 	}
 	
@@ -579,7 +581,7 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Get Last Detected Change as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getBptaChangeTimestamp()
 	{
@@ -595,17 +597,18 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Set Last Detected Change as linux timestamp
-	 * @param int $bptaChangeTimestamp
+	 * @param mixed $bptaChangeTimestamp
 	 */
 	public function setBptaChangeTimestamp($bptaChangeTimestamp)
 	{
-		$bptaChangeTimestamp = date('Y-m-d', $bptaChangeTimestamp);
+		if(is_int($bptaChangeTimestamp))
+			$bptaChangeTimestamp = date('Y-m-d', $bptaChangeTimestamp);
 		return $this->fields['bpta-change-timestamp'] = $bptaChangeTimestamp;
 	}
 	
 	/**
 	 * Get Last Update as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getBptaLastUpdateTimestamp()
 	{
@@ -621,11 +624,12 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Set Last Update as linux timestamp
-	 * @param int $bptaLastUpdateTimestamp
+	 * @param mixed $bptaLastUpdateTimestamp
 	 */
 	public function setBptaLastUpdateTimestamp($bptaLastUpdateTimestamp)
 	{
-		$bptaLastUpdateTimestamp = date('Y-m-d', $bptaLastUpdateTimestamp);
+		if(is_int($bptaLastUpdateTimestamp))
+			$bptaLastUpdateTimestamp = date('Y-m-d', $bptaLastUpdateTimestamp);
 		return $this->fields['bpta-last-update-timestamp'] = $bptaLastUpdateTimestamp;
 	}
 	
@@ -924,7 +928,7 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Get Version Check In Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckinDate()
 	{
@@ -940,11 +944,12 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Set Version Check In Date as linux timestamp
-	 * @param int $vcCheckinDate
+	 * @param mixed $vcCheckinDate
 	 */
 	public function setVcCheckinDate($vcCheckinDate)
 	{
-		$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
+		if(is_int($vcCheckinDate))
+			$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
 		return $this->fields['vc-checkin-date'] = $vcCheckinDate;
 	}
 	
@@ -997,7 +1002,7 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Get Version Check Out Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckoutDate()
 	{
@@ -1013,11 +1018,12 @@ class QualityCenterComponent extends QualityCenterEntity
 	
 	/**
 	 * Set Version Check Out Date as linux timestamp
-	 * @param int $vcCheckoutDate
+	 * @param mixed $vcCheckoutDate
 	 */
 	public function setVcCheckoutDate($vcCheckoutDate)
 	{
-		$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
+		if(is_int($vcCheckoutDate))
+			$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
 		return $this->fields['vc-checkout-date'] = $vcCheckoutDate;
 	}
 	

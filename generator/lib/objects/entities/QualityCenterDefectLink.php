@@ -45,7 +45,7 @@ class QualityCenterDefectLink extends QualityCenterEntity
 	
 	/**
 	 * Get Creation Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -61,11 +61,12 @@ class QualityCenterDefectLink extends QualityCenterEntity
 	
 	/**
 	 * Set Creation Date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	

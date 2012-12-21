@@ -3,9 +3,9 @@
  * @package External
  * @subpackage qc.services
  */
-require_once dirname(__FILE__) . '/../QualityCenterEntityService.php';
-require_once dirname(__FILE__) . '/../../objects/entities/QualityCenterUserAsset.php';
-require_once dirname(__FILE__) . '/../../filters/entities/QualityCenterUserAssetFilter.php';
+require_once __DIR__ . '/../QualityCenterEntityService.php';
+require_once __DIR__ . '/../../objects/entities/QualityCenterUserAsset.php';
+require_once __DIR__ . '/../../filters/entities/QualityCenterUserAssetFilter.php';
 
 /**
  * @package External
@@ -57,11 +57,12 @@ class QualityCenterUserAssetService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterUserAssetFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterUserAsset>
 	 */
-	public function search(QualityCenterUserAssetFilter $filter)
+	public function search(QualityCenterUserAssetFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

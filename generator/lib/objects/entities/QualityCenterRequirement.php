@@ -92,7 +92,7 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Get Creation Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -108,11 +108,12 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Set Creation Date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	
@@ -681,7 +682,7 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Get RBQM Date of last Analysis as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getRbtLastAnalysisDate()
 	{
@@ -697,11 +698,12 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Set RBQM Date of last Analysis as linux timestamp
-	 * @param int $rbtLastAnalysisDate
+	 * @param mixed $rbtLastAnalysisDate
 	 */
 	public function setRbtLastAnalysisDate($rbtLastAnalysisDate)
 	{
-		$rbtLastAnalysisDate = date('Y-m-d', $rbtLastAnalysisDate);
+		if(is_int($rbtLastAnalysisDate))
+			$rbtLastAnalysisDate = date('Y-m-d', $rbtLastAnalysisDate);
 		return $this->fields['rbt-last-analysis-date'] = $rbtLastAnalysisDate;
 	}
 	
@@ -1831,7 +1833,7 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Get Version Check In Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckinDate()
 	{
@@ -1847,11 +1849,12 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Set Version Check In Date as linux timestamp
-	 * @param int $vcCheckinDate
+	 * @param mixed $vcCheckinDate
 	 */
 	public function setVcCheckinDate($vcCheckinDate)
 	{
-		$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
+		if(is_int($vcCheckinDate))
+			$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
 		return $this->fields['vc-checkin-date'] = $vcCheckinDate;
 	}
 	
@@ -1904,7 +1907,7 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Get Version Check Out Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckoutDate()
 	{
@@ -1920,11 +1923,12 @@ class QualityCenterRequirement extends QualityCenterEntity
 	
 	/**
 	 * Set Version Check Out Date as linux timestamp
-	 * @param int $vcCheckoutDate
+	 * @param mixed $vcCheckoutDate
 	 */
 	public function setVcCheckoutDate($vcCheckoutDate)
 	{
-		$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
+		if(is_int($vcCheckoutDate))
+			$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
 		return $this->fields['vc-checkout-date'] = $vcCheckoutDate;
 	}
 	

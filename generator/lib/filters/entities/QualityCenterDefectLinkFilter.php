@@ -56,7 +56,7 @@ class QualityCenterDefectLinkFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Creation Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -72,11 +72,12 @@ class QualityCenterDefectLinkFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Creation Date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	

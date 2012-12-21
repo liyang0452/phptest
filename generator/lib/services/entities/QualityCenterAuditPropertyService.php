@@ -57,11 +57,12 @@ class QualityCenterAuditPropertyService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterAuditPropertyFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterAuditProperty>
 	 */
-	public function search(QualityCenterAuditPropertyFilter $filter)
+	public function search(QualityCenterAuditPropertyFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

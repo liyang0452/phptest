@@ -57,11 +57,12 @@ class QualityCenterDeletedAssetInfoService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterDeletedAssetInfoFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterDeletedAssetInfo>
 	 */
-	public function search(QualityCenterDeletedAssetInfoFilter $filter)
+	public function search(QualityCenterDeletedAssetInfoFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

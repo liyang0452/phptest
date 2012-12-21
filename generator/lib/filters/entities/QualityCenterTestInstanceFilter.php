@@ -202,7 +202,7 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Exec Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getExecDate()
 	{
@@ -218,11 +218,12 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Exec Date as linux timestamp
-	 * @param int $execDate
+	 * @param mixed $execDate
 	 */
 	public function setExecDate($execDate)
 	{
-		$execDate = date('Y-m-d', $execDate);
+		if(is_int($execDate))
+			$execDate = date('Y-m-d', $execDate);
 		return $this->fields['exec-date'] = $execDate;
 	}
 	
@@ -297,7 +298,7 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Planned Exec Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getPlanSchedulingDate()
 	{
@@ -313,11 +314,12 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Planned Exec Date as linux timestamp
-	 * @param int $planSchedulingDate
+	 * @param mixed $planSchedulingDate
 	 */
 	public function setPlanSchedulingDate($planSchedulingDate)
 	{
-		$planSchedulingDate = date('Y-m-d', $planSchedulingDate);
+		if(is_int($planSchedulingDate))
+			$planSchedulingDate = date('Y-m-d', $planSchedulingDate);
 		return $this->fields['plan-scheduling-date'] = $planSchedulingDate;
 	}
 	
@@ -400,6 +402,7 @@ class QualityCenterTestInstanceFilter extends QualityCenterFilter
 			'Cue Points',
 			'Custom Data/Meta data',
 			'Distribution',
+			'Drop folder',
 			'Email Notifications',
 			'Entitlement',
 			'Entry Drill down',

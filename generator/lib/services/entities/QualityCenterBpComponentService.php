@@ -57,11 +57,12 @@ class QualityCenterBpComponentService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterBpComponentFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterBpComponent>
 	 */
-	public function search(QualityCenterBpComponentFilter $filter)
+	public function search(QualityCenterBpComponentFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

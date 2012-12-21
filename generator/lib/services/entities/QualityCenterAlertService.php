@@ -57,11 +57,12 @@ class QualityCenterAlertService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterAlertFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterAlert>
 	 */
-	public function search(QualityCenterAlertFilter $filter)
+	public function search(QualityCenterAlertFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

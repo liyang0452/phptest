@@ -70,7 +70,7 @@ class QualityCenterAuditProperty extends QualityCenterEntity
 	
 	/**
 	 * Get New Value as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getNewDateValue()
 	{
@@ -86,11 +86,12 @@ class QualityCenterAuditProperty extends QualityCenterEntity
 	
 	/**
 	 * Set New Value as linux timestamp
-	 * @param int $newDateValue
+	 * @param mixed $newDateValue
 	 */
 	public function setNewDateValue($newDateValue)
 	{
-		$newDateValue = date('Y-m-d', $newDateValue);
+		if(is_int($newDateValue))
+			$newDateValue = date('Y-m-d', $newDateValue);
 		return $this->fields['new-date-value'] = $newDateValue;
 	}
 	
@@ -143,7 +144,7 @@ class QualityCenterAuditProperty extends QualityCenterEntity
 	
 	/**
 	 * Get Old Value as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getOldDateValue()
 	{
@@ -159,11 +160,12 @@ class QualityCenterAuditProperty extends QualityCenterEntity
 	
 	/**
 	 * Set Old Value as linux timestamp
-	 * @param int $oldDateValue
+	 * @param mixed $oldDateValue
 	 */
 	public function setOldDateValue($oldDateValue)
 	{
-		$oldDateValue = date('Y-m-d', $oldDateValue);
+		if(is_int($oldDateValue))
+			$oldDateValue = date('Y-m-d', $oldDateValue);
 		return $this->fields['old-date-value'] = $oldDateValue;
 	}
 	

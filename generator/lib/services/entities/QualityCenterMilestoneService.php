@@ -57,11 +57,12 @@ class QualityCenterMilestoneService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterMilestoneFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterMilestone>
 	 */
-	public function search(QualityCenterMilestoneFilter $filter)
+	public function search(QualityCenterMilestoneFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

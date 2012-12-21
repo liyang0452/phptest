@@ -57,11 +57,12 @@ class QualityCenterMsiService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterMsiFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterMsi>
 	 */
-	public function search(QualityCenterMsiFilter $filter)
+	public function search(QualityCenterMsiFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

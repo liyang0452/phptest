@@ -57,11 +57,12 @@ class QualityCenterAnalysisItemResultService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterAnalysisItemResultFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterAnalysisItemResult>
 	 */
-	public function search(QualityCenterAnalysisItemResultFilter $filter)
+	public function search(QualityCenterAnalysisItemResultFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

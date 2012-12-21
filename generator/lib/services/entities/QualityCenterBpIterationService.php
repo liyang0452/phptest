@@ -57,11 +57,12 @@ class QualityCenterBpIterationService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterBpIterationFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterBpIteration>
 	 */
-	public function search(QualityCenterBpIterationFilter $filter)
+	public function search(QualityCenterBpIterationFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

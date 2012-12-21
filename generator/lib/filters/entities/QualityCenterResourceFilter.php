@@ -117,7 +117,7 @@ class QualityCenterResourceFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Creation date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationTime()
 	{
@@ -133,11 +133,12 @@ class QualityCenterResourceFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Creation date as linux timestamp
-	 * @param int $creationTime
+	 * @param mixed $creationTime
 	 */
 	public function setCreationTime($creationTime)
 	{
-		$creationTime = date('Y-m-d', $creationTime);
+		if(is_int($creationTime))
+			$creationTime = date('Y-m-d', $creationTime);
 		return $this->fields['creation-time'] = $creationTime;
 	}
 	
@@ -389,7 +390,7 @@ class QualityCenterResourceFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Version Check In Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckinDate()
 	{
@@ -405,11 +406,12 @@ class QualityCenterResourceFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Version Check In Date as linux timestamp
-	 * @param int $vcCheckinDate
+	 * @param mixed $vcCheckinDate
 	 */
 	public function setVcCheckinDate($vcCheckinDate)
 	{
-		$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
+		if(is_int($vcCheckinDate))
+			$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
 		return $this->fields['vc-checkin-date'] = $vcCheckinDate;
 	}
 	
@@ -462,7 +464,7 @@ class QualityCenterResourceFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Version Check Out Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckoutDate()
 	{
@@ -478,11 +480,12 @@ class QualityCenterResourceFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Version Check Out Date as linux timestamp
-	 * @param int $vcCheckoutDate
+	 * @param mixed $vcCheckoutDate
 	 */
 	public function setVcCheckoutDate($vcCheckoutDate)
 	{
-		$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
+		if(is_int($vcCheckoutDate))
+			$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
 		return $this->fields['vc-checkout-date'] = $vcCheckoutDate;
 	}
 	

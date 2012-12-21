@@ -57,11 +57,12 @@ class QualityCenterTestConfigService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterTestConfigFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterTestConfig>
 	 */
-	public function search(QualityCenterTestConfigFilter $filter)
+	public function search(QualityCenterTestConfigFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

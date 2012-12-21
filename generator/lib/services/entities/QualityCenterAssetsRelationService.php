@@ -57,11 +57,12 @@ class QualityCenterAssetsRelationService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterAssetsRelationFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterAssetsRelation>
 	 */
-	public function search(QualityCenterAssetsRelationFilter $filter)
+	public function search(QualityCenterAssetsRelationFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

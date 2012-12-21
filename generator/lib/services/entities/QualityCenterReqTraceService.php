@@ -57,11 +57,12 @@ class QualityCenterReqTraceService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterReqTraceFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterReqTrace>
 	 */
-	public function search(QualityCenterReqTraceFilter $filter)
+	public function search(QualityCenterReqTraceFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

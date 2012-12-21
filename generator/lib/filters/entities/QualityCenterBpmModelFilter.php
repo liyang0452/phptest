@@ -703,7 +703,7 @@ class QualityCenterBpmModelFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Version Check In Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckinDate()
 	{
@@ -719,11 +719,12 @@ class QualityCenterBpmModelFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Version Check In Date as linux timestamp
-	 * @param int $vcCheckinDate
+	 * @param mixed $vcCheckinDate
 	 */
 	public function setVcCheckinDate($vcCheckinDate)
 	{
-		$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
+		if(is_int($vcCheckinDate))
+			$vcCheckinDate = date('Y-m-d', $vcCheckinDate);
 		return $this->fields['vc-checkin-date'] = $vcCheckinDate;
 	}
 	
@@ -776,7 +777,7 @@ class QualityCenterBpmModelFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Version Check Out Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getVcCheckoutDate()
 	{
@@ -792,11 +793,12 @@ class QualityCenterBpmModelFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Version Check Out Date as linux timestamp
-	 * @param int $vcCheckoutDate
+	 * @param mixed $vcCheckoutDate
 	 */
 	public function setVcCheckoutDate($vcCheckoutDate)
 	{
-		$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
+		if(is_int($vcCheckoutDate))
+			$vcCheckoutDate = date('Y-m-d', $vcCheckoutDate);
 		return $this->fields['vc-checkout-date'] = $vcCheckoutDate;
 	}
 	

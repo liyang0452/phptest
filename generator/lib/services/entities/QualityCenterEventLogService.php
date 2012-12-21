@@ -57,11 +57,12 @@ class QualityCenterEventLogService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterEventLogFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterEventLog>
 	 */
-	public function search(QualityCenterEventLogFilter $filter)
+	public function search(QualityCenterEventLogFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

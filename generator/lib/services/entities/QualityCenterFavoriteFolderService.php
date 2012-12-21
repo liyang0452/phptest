@@ -57,11 +57,12 @@ class QualityCenterFavoriteFolderService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterFavoriteFolderFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterFavoriteFolder>
 	 */
-	public function search(QualityCenterFavoriteFolderFilter $filter)
+	public function search(QualityCenterFavoriteFolderFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

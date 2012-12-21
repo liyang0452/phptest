@@ -57,11 +57,12 @@ class QualityCenterReportToReportProjectTemplateLinkService extends QualityCente
 	
 	/**
 	 * @param QualityCenterReportToReportProjectTemplateLinkFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterReportToReportProjectTemplateLink>
 	 */
-	public function search(QualityCenterReportToReportProjectTemplateLinkFilter $filter)
+	public function search(QualityCenterReportToReportProjectTemplateLinkFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

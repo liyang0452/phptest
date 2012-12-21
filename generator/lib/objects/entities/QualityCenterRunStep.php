@@ -158,7 +158,7 @@ class QualityCenterRunStep extends QualityCenterEntity
 	
 	/**
 	 * Get Exec Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getExecutionDate()
 	{
@@ -174,11 +174,12 @@ class QualityCenterRunStep extends QualityCenterEntity
 	
 	/**
 	 * Set Exec Date as linux timestamp
-	 * @param int $executionDate
+	 * @param mixed $executionDate
 	 */
 	public function setExecutionDate($executionDate)
 	{
-		$executionDate = date('Y-m-d', $executionDate);
+		if(is_int($executionDate))
+			$executionDate = date('Y-m-d', $executionDate);
 		return $this->fields['execution-date'] = $executionDate;
 	}
 	

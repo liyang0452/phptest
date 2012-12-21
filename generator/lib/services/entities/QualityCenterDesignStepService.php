@@ -57,11 +57,12 @@ class QualityCenterDesignStepService extends QualityCenterEntityService
 	
 	/**
 	 * @param QualityCenterDesignStepFilter $filter
+	 * @param QualityCenterPager $pager
 	 * @return array<QualityCenterDesignStep>
 	 */
-	public function search(QualityCenterDesignStepFilter $filter)
+	public function search(QualityCenterDesignStepFilter $filter, QualityCenterPager $pager = null)
 	{
-		return $this->searchEntities($filter);
+		return $this->searchEntities($filter, $pager);
 	}
 	
 	/**

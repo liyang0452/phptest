@@ -323,7 +323,7 @@ class QualityCenterLibraryFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Creation Date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCreationDate()
 	{
@@ -339,11 +339,12 @@ class QualityCenterLibraryFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Creation Date as linux timestamp
-	 * @param int $creationDate
+	 * @param mixed $creationDate
 	 */
 	public function setCreationDate($creationDate)
 	{
-		$creationDate = date('Y-m-d', $creationDate);
+		if(is_int($creationDate))
+			$creationDate = date('Y-m-d', $creationDate);
 		return $this->fields['creation-date'] = $creationDate;
 	}
 	
@@ -371,7 +372,7 @@ class QualityCenterLibraryFilter extends QualityCenterFilter
 	
 	/**
 	 * Get Last synchronization date as linux timestamp
-	 * @return int
+	 * @return mixed
 	 */
 	public function getCfrLastSyncDate()
 	{
@@ -387,11 +388,12 @@ class QualityCenterLibraryFilter extends QualityCenterFilter
 	
 	/**
 	 * Set Last synchronization date as linux timestamp
-	 * @param int $cfrLastSyncDate
+	 * @param mixed $cfrLastSyncDate
 	 */
 	public function setCfrLastSyncDate($cfrLastSyncDate)
 	{
-		$cfrLastSyncDate = date('Y-m-d', $cfrLastSyncDate);
+		if(is_int($cfrLastSyncDate))
+			$cfrLastSyncDate = date('Y-m-d', $cfrLastSyncDate);
 		return $this->fields['cfr-last-sync-date'] = $cfrLastSyncDate;
 	}
 	
