@@ -22,7 +22,14 @@ $project = QualityCenterSession::getProject();
 
 $connection = QualityCenterConnection::getInstance();
 $userService = new QualityCenterUserService($connection, $domain, $project);
-$users = $userService->search($filter);
+
+try{
+	$users = $userService->search($filter);
+}
+catch(QualityCenterLoginException $e){
+	throw new QualityCenterSessionException('Session Expired', QualityCenterSessionException::NO_SESSION);
+}
+
 echo '[';
 foreach($users as $index => $user)
 {

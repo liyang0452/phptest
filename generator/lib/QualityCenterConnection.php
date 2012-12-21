@@ -6,6 +6,7 @@
 require_once __DIR__ . '/exceptions/QualityCenterConnectionException.php';
 require_once __DIR__ . '/exceptions/QualityCenterHttpException.php';
 require_once __DIR__ . '/exceptions/QualityCenterLoginException.php';
+require_once __DIR__ . '/exceptions/QualityCenterPermissionException.php';
 require_once __DIR__ . '/exceptions/QualityCenterServerException.php';
 
 /**
@@ -287,7 +288,21 @@ class QualityCenterConnection
 		//echo "HTTP Code [$httpCode] Returned data [" . $ret . "]\n";
 		if($httpCode != $this->expectedHttpCode)
 		{
-			$resultXml = new SimpleXMLElement($ret);
+			if($httpCode == 401)
+				throw new QualityCenterLoginException();
+				
+			try
+			{
+				$resultXml = new SimpleXMLElement($ret);
+			}
+			catch(Exception $e)
+			{
+				throw new QualityCenterConnectionException($e->getMessage() . " - HTTP code [$httpCode] response [$ret]", $e->getCode());				
+			}
+			
+			if($httpCode == 403)
+				throw new QualityCenterPermissionException($resultXml->Title, $resultXml->Id, $resultXml->StackTrace);
+			
 			throw new QualityCenterServerException($resultXml->Title, $resultXml->Id, $resultXml->StackTrace);
 		}
 		$this->expectedHttpCode = 200;

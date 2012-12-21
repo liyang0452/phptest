@@ -17,18 +17,31 @@ abstract class QualityCenterEntity extends QualityCenterObject
 	protected $fields = array();
 	
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param mixed $data SimpleXMLElement or associative array
 	 */
-	public function __construct(SimpleXMLElement $xml = null)
+	public function __construct($data = null)
 	{
-		if(!$xml)
+		if(!$data)
 			return;
 			
-		foreach($xml->Fields->children() as $fieldXml)
+		if(is_array($data))
 		{
-			/* @var $fieldXml SimpleXMLElement */
-			$fieldAttributes = $fieldXml->attributes();
-			$this->fields["$fieldAttributes->Name"] = "$fieldXml->Value";
+			foreach($data as $field => $value)
+			{
+				$setter = "set{$field}";
+				if(is_callable(array($this, $setter)))
+					$this->$setter($value);
+			}
+		}
+			
+		if($data instanceof SimpleXMLElement)
+		{
+			foreach($data->Fields->children() as $fieldXml)
+			{
+				/* @var $fieldXml SimpleXMLElement */
+				$fieldAttributes = $fieldXml->attributes();
+				$this->fields["$fieldAttributes->Name"] = "$fieldXml->Value";
+			}
 		}
 	}
 

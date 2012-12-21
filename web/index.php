@@ -15,9 +15,12 @@ require_once __DIR__ . "/ajax/exceptions/QualityCenterSessionException.php";
 	<link rel="stylesheet" href="styles/kendo.common.min.css" />
 	<link rel="stylesheet" href="styles/kendo.default.min.css" />
 
-	<script src="js/jquery-1.8.3.js"></script>
-	<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
-	<script src="js/kendo.web.min.js"></script>
+	<style type="text/css">
+	</style>
+	
+	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script type="text/javascript" src="js/kendo.web.min.js"></script>
 	
 	<style type="text/css">
 
@@ -32,7 +35,7 @@ require_once __DIR__ . "/ajax/exceptions/QualityCenterSessionException.php";
 		}
 		
 	</style>
-	<script>
+	<script type="text/javascript">
 
 		var inLogin = false;
 		var windowData = null;
@@ -131,7 +134,8 @@ require_once __DIR__ . "/ajax/exceptions/QualityCenterSessionException.php";
 			$('#main-pane').kendoSplitter({
 				panes: [
 					{ collapsible: true, size: '260px' },
-					{ collapsible: false }
+					{ collapsible: false },
+					{ collapsible: true, size: '260px' }
 				]
 			});
 	
@@ -170,12 +174,8 @@ require_once __DIR__ . "/ajax/exceptions/QualityCenterSessionException.php";
 				Tests tree
 			</div>
 		</div>
-		<div id="grid-pane">
-			<div>
-				<!-- TODO -->
-				Data Grid
-			</div>
-		</div>
+		<div id="grid-pane"></div>
+		<div id="filter-pane"></div>
 	</div>
 
 	<div style="display: none;">

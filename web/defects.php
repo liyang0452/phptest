@@ -1,3 +1,39 @@
+<?php 
+
+	function parseConfig(array $array, $delimiter = '.')
+	{
+		foreach($array as $field => $value)
+		{
+			if(is_array($value) || !strpos($field, '.'))
+				continue;
+				
+			list($parentField, $childField) = explode($delimiter, $field, 2);
+//			echo "split [$parentField][$childField] = [$value] <br/>\n";
+			if(isset($array[$parentField]))
+			{
+				if(!is_array($array[$parentField]))
+					throw new QualityCenterConfigException("Attribute [$parentField] defined more than once", QualityCenterConfigException::INVALID_FORMAT);
+			}
+			else
+			{
+				$array[$parentField] = array();
+			}
+			$array[$parentField][$childField] = $value;
+			unset($array[$field]);
+		}
+	
+		foreach($array as $field => $value)
+		{
+			if(is_array($value))
+				$array[$field] = parseConfig($value, $delimiter);
+		}
+		
+		return $array;
+	}
+	
+	$config = parseConfig(parse_ini_file(__DIR__ . '/../config.ini', true));
+	
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +43,7 @@
 		.details td.label {width: 250px;}
 	</style>
 	<script type="text/x-kendo-template" id="template">
-		<div class="tabstrip">
+		<div class="tabstrip" id="defect-edit-#= id #">
 			<ul>
 				<li class="k-state-active">
 					Description
@@ -39,37 +75,33 @@
 			</div>
 			<div class="details">
 				<ul>
+					<?php
+						foreach($config['defects']['grid']['details'] as $sectionName => $section)
+						{
+							?>
 					<li>
-						<label>Metadata</label>
+						<label><?php echo $section['title']; ?></label>
 						<table>
-							<tr class="form-field" data-field="name" data-value="#= name #" />
-							<tr class="form-field" data-field="status" data-value="#= status #" />
+							<?php
+								foreach($section['fields'] as $fieldName => $field)
+								{
+									$attr = $field['attr'];
+									if(isset($field['edit']) && $field['edit'])
+									{
+										echo "<tr class=\"form-field\" data-field=\"$fieldName\" data-attr=\"$attr\" data-value=\"#= $attr #\" />\n";
+									}
+									else
+									{
+										$title = $field['title'];
+										echo "<tr><td>$title</td><td>#= $attr #</td></tr>\n";										
+									}
+								}
+							?>
 						</table>
 					</li>
-					<li>
-						<label>Detection</label>
-						<table>
-							<tr class="form-field" data-field="detected-by" data-value="#= detectedBy #" />
-							<tr class="form-field" data-field="severity" data-value="#= severity #" />
-							<tr class="form-field" data-field="detected-in-rcyc" data-value="#= detectedInRcyc #" />
-							<tr class="form-field" data-field="detected-in-rel" data-value="#= detectedInRel #" />
-							<tr class="form-field" data-field="detection-version" data-value="#= detectionVersion #" />
-						</table>
-					</li>
-					<li>
-						<label>Solution</label>
-						<table>
-							<tr class="form-field" data-field="owner" data-value="#= owner #" />
-							<tr class="form-field" data-field="priority" data-value="#= priority #" />
-							<tr class="form-field" data-field="target-rcyc" data-value="#= targetRcyc #" />
-							<tr class="form-field" data-field="target-rel" data-value="#= targetRel #" />
-							<tr class="form-field" data-field="planned-closing-ver" data-value="#= plannedClosingVer #" />
-							<tr class="form-field" data-field="closing-version" data-value="#= closingVersion #" />
-							<tr class="form-field" data-field="closing-date" data-value="#= closingDate #" />
-							<tr class="form-field" data-field="estimated-fix-time" data-value="#= estimatedFixTime #" />
-							<tr class="form-field" data-field="actual-fix-time" data-value="#= actualFixTime #" />
-						</table>
-					</li>
+							<?php
+						}
+					?>
 				</ul>
 			</div>
 			<div>
@@ -86,8 +118,30 @@
 			</div>
 		</div>
 	</script>
-	<script>
-
+	<script type="text/javascript">
+		
+		(function($) {
+	
+		    var kendo = window.kendo,
+		    ui = kendo.ui,
+		    ComboBox = ui.ComboBox
+	
+		    var TreeBox = ComboBox.extend({
+	
+		        init: function(element, options) {
+		            ComboBox.fn.init.call(this, element, options);
+		        },
+	
+		        options: {
+		            name: "TreeBox"
+		        }
+	
+		    });
+	
+		    ui.plugin(TreeBox);
+	
+		})($);
+	
 		var relations = {
 			'detected-in-rcyc': {
 				entityType: 'release-cycle',
@@ -133,6 +187,21 @@
 		var relatedDataSources = {};
 		var usersDataSource = null;
 
+		function loadColumnEditor(container, options){
+			var field = $('<input type="text" class="field-' + options.field + '" data-bind="value:' + options.field + '" />');
+			field.appendTo(container);
+
+			if(defectsXml == null)
+				return;
+
+			var value = options.model[options.field];
+			var element = defectsXml.find('Field[Name="' + options.field + '"]');
+			var type = element.find('Type').text();
+			var listId = element.find('List-Id').text();
+			var maxLength = element.find('Size').text();
+			loadDetailField(field, options.field, type, listId, maxLength);
+		}
+		
 		function loadLookupField(field, listId){
 			if(listsXml[listId] != null){
 				var items = listsXml[listId].find('Item');
@@ -162,21 +231,21 @@
 			});
 		}
 
-		function loadReferenceField(field, attribute){
-			if(relations[attribute] == null){
-				alert('Relation [' + attribute + '] not found');
+		function loadReferenceField(field, fieldName){
+			if(relations[fieldName] == null){
+				alert('Relation [' + fieldName + '] not found');
 				return;
 			}
 
-			var attributeRelation = relations[attribute];
-			if(relatedDataSources[attributeRelation.entityType] == null){
-				alert('Related data source [' + attributeRelation.entityType + '] for attribute [' + attribute + '] not found');
+			var fieldNameRelation = relations[fieldName];
+			if(relatedDataSources[fieldNameRelation.entityType] == null){
+				alert('Related data source [' + fieldNameRelation.entityType + '] for fieldName [' + fieldName + '] not found');
 				return;
 			}
 
 			// TODO - use tree view
-			field.kendoComboBox({
-                dataSource: relatedDataSources[attributeRelation.entityType],
+			field.kendoTreeBox({
+                dataSource: relatedDataSources[fieldNameRelation.entityType],
                 dataTextField: 'label',
                 dataValueField: 'value',
                 filter: 'contains',
@@ -192,64 +261,79 @@
              });
 		}
 
-		function loadDetailFields(event){
-			var detailRow = event.detailRow;
+		function gridDetailInit(tabstrip){
+			tabstrip.kendoTabStrip({
+				animation: {
+					open: { effects: 'fadeIn' }
+				}
+			});
 
-			detailRow.find('.form-field').each(function(){
+			tabstrip.find('.defect-description').kendoEditor();
+			tabstrip.find('.defect-comments').kendoEditor();
+		}
+
+		function loadDetailField(field, fieldName, type, listId, maxLength){
+			switch(type){
+				case 'UsersList':
+					loadUsersField(field);
+					break;
+					
+				case 'LookupList':
+					loadLookupField(field, listId);
+					break;
+					
+				case 'Date':
+					field.kendoDatePicker({
+	                    format: 'yyyy-MM-dd'
+	                });
+					break;
+		                
+				case 'DateTime':
+					field.kendoDateTimePicker({
+	                    format: 'yyyy-MM-dd hh:mm'
+	                });
+					break;
+		                
+				case 'Number':
+					field.kendoNumericTextBox({
+						format: '0',
+						decimals: 0
+					});
+					break;
+		               
+				case 'Reference':
+					loadReferenceField(field, fieldName);
+					break;
+	
+				case 'Memo':
+				case 'String':
+				default:
+					field.attr('maxlength', maxLength);
+					field.wrap('<span class="k-textbox" tabindex="-1" />');
+					break;
+			}
+		}
+
+		function loadDetailFields(tabstrip){
+
+			tabstrip.find('.form-field').each(function(){
 				var item = $(this);
-				var attribute = item.data('field');
+				var fieldName = item.data('field');
+				var fieldAttr = item.data('attr');
 				var value = item.data('value');
-				var element = defectsXml.find('Field[Name="' + attribute + '"]');
+				var element = defectsXml.find('Field[Name="' + fieldName + '"]');
 				var type = element.find('Type').text();
 				
-				var field = $('<input type="text" class="field-' + attribute + '" value="' + value + '" />');
+				var field = $('<input type="text" class="details-field field-' + fieldName + '" data-field="-' + fieldName + '" data-attr="' + fieldAttr + '" value="' + value + '" />');
 				var fieldTd = $('<td class="input" />');
 				fieldTd.append(field);
 				
 				item.append('<td class="label">' + element.attr('Label') + '</td>');
 				item.append(fieldTd);
 
-				switch(type){
-					case 'UsersList':
-						loadUsersField(field);
-						break;
-						
-					case 'LookupList':
-						var listId = element.find('List-Id').text();
-						loadLookupField(field, listId);
-						break;
-						
-					case 'Date':
-						field.kendoDatePicker({
-		                    format: 'yyyy-MM-dd'
-		                });
-						break;
-			                
-					case 'DateTime':
-						field.kendoDateTimePicker({
-		                    format: 'yyyy-MM-dd hh:mm'
-		                });
-						break;
-			                
-					case 'Number':
-						field.kendoNumericTextBox({
-							format: '0',
-							decimals: 0
-						});
-						break;
-			               
-					case 'Reference':
-						loadReferenceField(field, attribute);
-						break;
-
-					case 'Memo':
-					case 'String':
-					default:
-						var maxLength = element.find('Size').text();
-						field.attr('maxlength', maxLength);
-						field.wrap('<span class="k-textbox" tabindex="-1" />');
-						break;
-				}
+				var listId = element.find('List-Id').text();
+				var maxLength = element.find('Size').text();
+				loadDetailField(field, fieldName, type, listId, maxLength);
 			});
 		}
 
@@ -260,57 +344,78 @@
 					read:  {
 						url: 'ajax/entities.php',
 						type: 'post',
-						dataType: 'json',
-						error: function(jqXHR, textStatus, errorThrown){
-							handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-						}
+						dataType: 'json'
 					},
 					update: {
 						url: 'ajax/entities.php',
 						type: 'post',
-						dataType: 'json',
-						error: function(jqXHR, textStatus, errorThrown){
-							handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-						}
+						dataType: 'json'
 					},
 					destroy: {
 						url: 'ajax/entities.php',
 						type: 'post',
-						dataType: 'json',
-						error: function(jqXHR, textStatus, errorThrown){
-							handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-						}
+						dataType: 'json'
 					},
 					create: {
 						url: 'ajax/entities.php',
 						type: 'post',
-						dataType: 'json',
-						error: function(jqXHR, textStatus, errorThrown){
-							handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-						}
+						dataType: 'json'
 					},
 					parameterMap: function(options, operation) {
 						options.entityType = 'defect';
 						options.operation = operation;
+
+						if(operation == 'update'){
+							options.updates = {};
+							for(var i = 0; i < options.models.length; i++){
+								var model = options.models[i];
+								var update = {
+									<?php 
+										$copies = array();
+										foreach($config['defects']['grid']['columns'] as $field => $settings)
+										{
+											if($settings['edit'])
+												$copies[] = "$field: model.$field";
+										}
+										echo implode(',', $copies);
+									?>
+								};
+								
+								$('#defect-edit-' + model.id).find('.details-field').each(function(){
+									var fieldAttr = $(this).data('attr');
+									update[fieldAttr] = $(this).val();
+								});
+								
+								options.updates[model.id] = update;
+							}
+						}
+						
 						return options;
 					}
 				},
 				batch: true,
 				pageSize: 20,
+				error: function(e){					
+					handleAjaxError(e.xhr.getResponseHeader('X-QualityCenterWebException'), e.errorThrown, loadDefects);
+				},
 				schema: {
 					model: {
 						id: 'id',
 						fields: {
-							id: { editable: false, nullable: true },
-							name: { validation: { required: true } },
-							owner: { type: 'string' },
-							severity: { type: 'string' },
-							detectedBy: { type: 'string' }
+							<?php 
+								$fields = array();
+								foreach($config['defects']['grid']['columns'] as $field => $settings)
+								{
+									if(!$settings['edit'])
+										$fields[] = "$field: {editable: false}";
+								}
+								echo implode(',', $fields);
+							?>
 						}
 					}
 				}
 			});
-	
+
 			$('#grid').kendoGrid({
 				dataSource: dataSource,
 				pageable: true,
@@ -318,33 +423,49 @@
 				height: '100%',
 				toolbar: ['create'],
 				columns: [
-					{ field: 'id', title: 'ID', width: '60px' },
-					{ field: 'severity', title: 'Severity', width: '90px' },
-					{ field: 'status', title: 'Status', width: '90px' },
-					{ field: 'name', title: 'Summary' },
-					{ field: 'owner', title: 'Assigned to', width: '100px' },
-					{ field: 'detectedBy', title:'Detected by', width: '100px' },
-					{ field: 'creationTime', title:'Detected at', type: 'date', width: '100px' },
-                    { command: ['edit', 'destroy'], title: '&nbsp;', width: '170px' }
+					<?php 
+						$fields = array();
+						foreach($config['defects']['grid']['columns'] as $field => $settings)
+						{
+							$title = $field;
+							$width = '';
+							$editor = '';
+							
+							if(isset($settings['title']))
+								$title = $settings['title'];
+								
+							if(isset($settings['width']))
+								$width = ", width: '" . $settings['width'] . "px'";
+								
+							if(isset($settings['edit']) && $settings['edit'])
+								$editor = ', editor: loadColumnEditor ';
+								
+							echo "{ field: '$field' , title: '$title' $width $editor},";
+						}
+					?>
+					{ command: ['edit', 'destroy'], title: '&nbsp;', width: '170px' }
 				],
-                editable: 'inline',
+				editable: {
+					update: true,
+					destroy: true,
+					confirmation: 'Are you sure you want to delete this defect?',
+					mode: 'inline'
+				},
+                
+				edit: function (event){
+					var grid = $("#grid").data("kendoGrid");
+					grid.expandRow(event.container);
+				},
                 
 				detailInit: function (event){
 					var detailRow = event.detailRow;
-
-					detailRow.find('.tabstrip').kendoTabStrip({
-						animation: {
-							open: { effects: 'fadeIn' }
-						}
-					});
-
-					detailRow.find('.defect-description').kendoEditor();
-					detailRow.find('.defect-comments').kendoEditor();
+					gridDetailInit(detailRow.find('.tabstrip'));
 				},
 
 				detailExpand: function (event){
 					if(defectsXml != null){
-						loadDetailFields(event);
+						var detailRow = event.detailRow;
+						loadDetailFields(detailRow.find('.tabstrip'));
 					}
 				}
 	
@@ -405,16 +526,16 @@
 						read:  {
 							url: 'ajax/entities.php',
 							type: 'post',
-							dataType: 'json',
-							error: function(jqXHR, textStatus, errorThrown){
-								handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-							}
+							dataType: 'json'
 						},
 						parameterMap: function(options, operation) {
 							options.entityType = relations[field].objectType;
 							options.operation = operation;
 							return options;
 						}
+					},
+					error: function(e){					
+						handleAjaxError(e.xhr.getResponseHeader('X-QualityCenterWebException'), e.errorThrown, loadDefects);
 					},
 					schema: {
 						parse: function(response){
