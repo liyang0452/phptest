@@ -120,55 +120,6 @@
 	</script>
 	<script type="text/javascript">
 		
-		(function($) {
-	
-		    var kendo = window.kendo,
-		    ui = kendo.ui,
-		    ComboBox = ui.ComboBox
-	
-		    var TreeBox = ComboBox.extend({
-	
-		        init: function(element, options) {
-		            ComboBox.fn.init.call(this, element, options);
-		        },
-	
-		        options: {
-		            name: "TreeBox"
-		        }
-	
-		    });
-	
-		    ui.plugin(TreeBox);
-	
-		})($);
-	
-		var relations = {
-			'detected-in-rcyc': {
-				entityType: 'release-cycle',
-				objectType: 'releaseCycle',
-				identifier: 'id',
-				label: 'name'
-			},
-			'detected-in-rel': {
-				entityType: 'release',
-				objectType: 'release',
-				identifier: 'id',
-				label: 'name'
-			},
-			'target-rcyc': {
-				entityType: 'release-cycle',
-				objectType: 'releaseCycle',
-				identifier: 'id',
-				label: 'name'
-			},
-			'target-rel': {
-				entityType: 'release',
-				objectType: 'release',
-				identifier: 'id',
-				label: 'name'
-			}
-		};
-		
 		function detailInit(event){
 			var detailRow = event.detailRow;
 
@@ -182,83 +133,19 @@
 			detailRow.find('.defect-comments').kendoEditor();
 		}
 
-		var defectsXml = null;
-		var listsXml = {};
-		var relatedDataSources = {};
-		var usersDataSource = null;
-
 		function loadColumnEditor(container, options){
 			var field = $('<input type="text" class="field-' + options.field + '" data-bind="value:' + options.field + '" />');
 			field.appendTo(container);
 
-			if(defectsXml == null)
+			if(entitiesXml.defect == null)
 				return;
 
 			var value = options.model[options.field];
-			var element = defectsXml.find('Field[Name="' + options.field + '"]');
+			var element = entitiesXml.defect.find('Field[Name="' + options.field + '"]');
 			var type = element.find('Type').text();
 			var listId = element.find('List-Id').text();
 			var maxLength = element.find('Size').text();
-			loadDetailField(field, options.field, type, listId, maxLength);
-		}
-		
-		function loadLookupField(field, listId){
-			if(listsXml[listId] != null){
-				var items = listsXml[listId].find('Item');
-				var dataSource = [];
-				for(var i = 0; i < items.size(); i++){
-					var item = $(items.get(i));
-					dataSource.push(item.attr('value'));
-				}
-				
-				field.kendoComboBox({
-                    dataSource: dataSource,
-                    filter: 'contains',
-                    suggest: true
-                });
-			
-				return;
-			}
-
-			$.ajax({
-				url: 'ajax/list.xml.php?listId=' + listId,
-				cache: true,
-				dataType: 'xml',
-				success: function(xmlDoc, textStatus, jqXHR){
-					listsXml[listId] = $(xmlDoc);
-					loadLookupField(field, listId);
-				}
-			});
-		}
-
-		function loadReferenceField(field, fieldName){
-			if(relations[fieldName] == null){
-				alert('Relation [' + fieldName + '] not found');
-				return;
-			}
-
-			var fieldNameRelation = relations[fieldName];
-			if(relatedDataSources[fieldNameRelation.entityType] == null){
-				alert('Related data source [' + fieldNameRelation.entityType + '] for fieldName [' + fieldName + '] not found');
-				return;
-			}
-
-			// TODO - use tree view
-			field.kendoTreeBox({
-                dataSource: relatedDataSources[fieldNameRelation.entityType],
-                dataTextField: 'label',
-                dataValueField: 'value',
-                filter: 'contains',
-                suggest: true
-            });
-		}
-		
-		function loadUsersField(field){
-			field.kendoAutoComplete({
-                 dataSource: usersDataSource,
-                 filter: 'startswith',
-                 placeholder: 'Select user...'
-             });
+			loadDetailField(field, null, options.field, type, listId, maxLength);
 		}
 
 		function gridDetailInit(tabstrip){
@@ -272,47 +159,6 @@
 			tabstrip.find('.defect-comments').kendoEditor();
 		}
 
-		function loadDetailField(field, fieldName, type, listId, maxLength){
-			switch(type){
-				case 'UsersList':
-					loadUsersField(field);
-					break;
-					
-				case 'LookupList':
-					loadLookupField(field, listId);
-					break;
-					
-				case 'Date':
-					field.kendoDatePicker({
-	                    format: 'yyyy-MM-dd'
-	                });
-					break;
-		                
-				case 'DateTime':
-					field.kendoDateTimePicker({
-	                    format: 'yyyy-MM-dd hh:mm'
-	                });
-					break;
-		                
-				case 'Number':
-					field.kendoNumericTextBox({
-						format: '0',
-						decimals: 0
-					});
-					break;
-		               
-				case 'Reference':
-					loadReferenceField(field, fieldName);
-					break;
-	
-				case 'Memo':
-				case 'String':
-				default:
-					field.attr('maxlength', maxLength);
-					field.wrap('<span class="k-textbox" tabindex="-1" />');
-					break;
-			}
-		}
 
 		function loadDetailFields(tabstrip){
 
@@ -321,7 +167,7 @@
 				var fieldName = item.data('field');
 				var fieldAttr = item.data('attr');
 				var value = item.data('value');
-				var element = defectsXml.find('Field[Name="' + fieldName + '"]');
+				var element = entitiesXml.defect.find('Field[Name="' + fieldName + '"]');
 				var type = element.find('Type').text();
 				
 				var field = $('<input type="text" class="details-field field-' + fieldName + '" data-field="-' + fieldName + '" data-attr="' + fieldAttr + '" value="' + value + '" />');
@@ -333,13 +179,14 @@
 
 				var listId = element.find('List-Id').text();
 				var maxLength = element.find('Size').text();
-				loadDetailField(field, fieldName, type, listId, maxLength);
+				loadDetailField(field, null, fieldName, type, listId, maxLength);
 			});
 		}
 
+		var dataSource;
 		function loadDefects() {
 
-			var dataSource = new kendo.data.DataSource({
+			dataSource = new kendo.data.DataSource({
 				transport: {
 					read:  {
 						url: 'ajax/entities.php',
@@ -394,11 +241,16 @@
 					}
 				},
 				batch: true,
+				serverPaging: true,
+				serverSorting: true,
+				serverFiltering: true,
 				pageSize: 20,
 				error: function(e){					
 					handleAjaxError(e.xhr.getResponseHeader('X-QualityCenterWebException'), e.errorThrown, loadDefects);
 				},
 				schema: {
+					data: 'items',
+					total: 'totalCount',
 					model: {
 						id: 'id',
 						fields: {
@@ -451,6 +303,15 @@
 					confirmation: 'Are you sure you want to delete this defect?',
 					mode: 'inline'
 				},
+				
+//				TODO add server side support for sorting
+//						
+//				sortable: {
+//			        mode: "multiple",
+//			        allowUnsort: true
+//				},
+				
+				filterable: false,
                 
 				edit: function (event){
 					var grid = $("#grid").data("kendoGrid");
@@ -463,7 +324,7 @@
 				},
 
 				detailExpand: function (event){
-					if(defectsXml != null){
+					if(entitiesXml.defect != null){
 						var detailRow = event.detailRow;
 						loadDetailFields(detailRow.find('.tabstrip'));
 					}
@@ -475,89 +336,31 @@
 				var dataGrid = $('#grid').data('kendoGrid');
 				dataGrid.refresh();
 			});
-
-			usersDataSource = new kendo.data.DataSource({
-				transport: {
-					read:  {
-						url: 'ajax/users.php',
-						type: 'post',
-						dataType: 'json',
-						error: function(jqXHR, textStatus, errorThrown){
-							handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-						}
-					},
-					parameterMap: function(options, operation) {
-						options.operation = operation;
-						return options;
-					}
-				},
-				schema: {
-					parse: function(response){
-						var ret = [];
-						for(var i = 0; i < response.length; i++)
-							ret.push(response[i].name);
-						
-						return ret;
-					}
-				}
-			});
-			usersDataSource.fetch();
-
-			$.ajax({
-				url: 'ajax/entity.xml.php?entity=defect',
-				cache: true,
-				dataType: 'xml',
-				success: function(xmlDoc, textStatus, jqXHR){
-					defectsXml = $(xmlDoc);
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					handleAjaxError(jqXHR.getResponseHeader('X-QualityCenterWebException'), errorThrown, loadDefects);
-				}
-			});
-
-			relatedDataSources = {};
-			for(var field in relations){
-				var entityType = relations[field].entityType;
-				if(relatedDataSources[entityType] != null)
-					continue;
-				
-				relatedDataSources[entityType] = new kendo.data.DataSource({
-					transport: {
-						read:  {
-							url: 'ajax/entities.php',
-							type: 'post',
-							dataType: 'json'
-						},
-						parameterMap: function(options, operation) {
-							options.entityType = relations[field].objectType;
-							options.operation = operation;
-							return options;
-						}
-					},
-					error: function(e){					
-						handleAjaxError(e.xhr.getResponseHeader('X-QualityCenterWebException'), e.errorThrown, loadDefects);
-					},
-					schema: {
-						parse: function(response){
-							var ret = [];
-							for(var i = 0; i < response.length; i++){
-								ret.push({
-									value: response[i][relations[field].identifier],
-									label: response[i][relations[field].label]
-								});
-							}
-							
-							return ret;
-						}
-					}
-				});
-				relatedDataSources[entityType].fetch();
-			}
 		}
-		
+
+		function applyDefectsFilter(){
+			var filterForm = $('.filter-defect');
+			var filter = [];
+
+			filterForm.find('.filter-enable:checked').each(function(){
+				var checkbox = $(this);
+				var attribute = checkbox.data('attr');
+				var fieldName = checkbox.data('field');
+				var field = filterForm.find('.field-' + fieldName + '[data-field="' + fieldName + '"]');
+				filter.push({
+					field: attribute, 
+					operator: 'eq', 
+					value: field.val()
+				});
+			});
+			dataSource.filter(filter);
+		}
 		
 		$(document).ready(function () {
 			loadDefects();
+			registerFilterConsumer('defect', function(){
+				applyDefectsFilter();
+			});
 		});
 		
 	</script>
