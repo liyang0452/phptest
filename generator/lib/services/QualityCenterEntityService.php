@@ -76,7 +76,11 @@ abstract class QualityCenterEntityService extends QualityCenterService
 	{
 		$action = 'rest/domains/%s/projects/%s/' . $this->getQualityCenterEntityType() . 's?query={%s}&%s';
 		$xml = $this->connection->get($action, $this->domain, $this->project, $filter, $pager);
-		return $this->xmlToObjects(new SimpleXMLElement($xml));
+		$xmlElement = new SimpleXMLElement($xml);
+		if($pager)
+			$pager->setTotalResults(intval($xmlElement->attributes()->TotalResults));
+			
+		return $this->xmlToObjects($xmlElement);
 	}
 	
 	/**

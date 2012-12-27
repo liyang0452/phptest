@@ -15,31 +15,20 @@ class QualityCenterPager
 	 */
 	protected $pageSize = null;
 	
+	/**
+	 * @var int
+	 */
+	protected $totalResults = null;
+	
 	public function __toString()
 	{
 		if(!is_null($this->pageSize))
 		{
-			$startIndex = $this->pageIndex * $this->pageSize;
+			$startIndex = $this->pageIndex * $this->pageSize + 1;
 			return "page-size={$this->pageSize}&start-index={$startIndex}";
 		}
 	}
 	
-	/**
-	 * @return int $pageIndex
-	 */
-	public function getPageIndex()
-	{
-		return $this->pageIndex;
-	}
-
-	/**
-	 * @return int $pageSize
-	 */
-	public function getPageSize()
-	{
-		return $this->pageSize;
-	}
-
 	/**
 	 * @param int $pageIndex
 	 */
@@ -54,5 +43,21 @@ class QualityCenterPager
 	public function setPageSize($pageSize)
 	{
 		$this->pageSize = $pageSize;
+	}
+	
+	/**
+	 * @return int $totalResults
+	 */
+	public function getTotalResults()
+	{
+		return $this->totalResults;
+	}
+
+	/**
+	 * @param int $totalResults
+	 */
+	public function setTotalResults($totalResults)
+	{
+		$this->totalResults = $totalResults;
 	}
 }
